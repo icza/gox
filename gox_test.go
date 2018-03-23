@@ -80,6 +80,8 @@ func TestNewValues(t *testing.T) {
 		{"NewUint64", NewUint64, is{uint64(0), uint64(1)}},
 		{"NewFloat32", NewFloat32, is{float32(0), float32(1)}},
 		{"NewFloat64", NewFloat64, is{float64(0), float64(1)}},
+		{"NewByte", NewByte, is{byte(0), byte(1)}},
+		{"NewRune", NewRune, is{rune(0), rune(1)}},
 	}
 
 	for _, c := range cases {
@@ -94,9 +96,4 @@ func TestNewValues(t *testing.T) {
 			}
 		}
 	}
-
-	// bp := NewBool(false)
-	// if bp == nil || *bp != false {
-	// 	t.Errorf("NewBool misbehaves!")
-	// }
 }

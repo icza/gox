@@ -84,3 +84,9 @@ func NewFloat32(f float32) *float32 { return &f }
 
 // NewFloat64 returns a pointer to the given float64 value.
 func NewFloat64(f float64) *float64 { return &f }
+
+// NewByte returns a pointer to the given byte value.
+func NewByte(b byte) *byte { return &b }
+
+// NewRune returns a pointer to the given rune value.
+func NewRune(r rune) *rune { return &r }
