@@ -60,7 +60,7 @@ func TestPie(t *testing.T) {
 }
 
 func TestNewValues(t *testing.T) {
-	type is = []interface{}
+	type is []interface{}
 	cases := []struct {
 		name   string        // Name of the test case
 		f      interface{}   // Function to call
