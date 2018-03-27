@@ -18,8 +18,18 @@ using some of the functions, the compiler will exclude those from your binary.
 An easy way to use this library is to "dot-import" the package so identifiers
 will be directly available:
 
-    import . "github.com/icza/gox"
+	import (
+		"fmt"
 
-    func main() {
+		. "github.com/icza/gox"
+	)
 
-    }
+	func main() {
+		s := struct {
+			B      *bool
+			U, Max *uint
+		}{NewBool(true), NewUint(1), NewUint(MaxUint)}
+
+		fmt.Println(*s.B, *s.U)
+		// Output: true 1
+	}

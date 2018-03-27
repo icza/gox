@@ -8,13 +8,8 @@ Most of the functions are eligible for inlining. And don't worry if you're not
 using some of the functions, the compiler will exclude those from your binary.
 
 An easy way to use this library is to "dot-import" the package so identifiers
-will be directly available:
+will be directly available, see the package example.
 
-    import . "github.com/icza/gox"
-
-    func main() {
-
-    }
 */
 package gox
 
