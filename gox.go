@@ -27,7 +27,7 @@ const (
 	Arch32bit = MaxUint == 0xffffffff
 
 	// Arch64bit tells if the target architecture is 64-bit.
-	Arch64bit = MaxUint == 0xffffffffffffffff
+	Arch64bit = uint64(MaxUint) == 0xffffffffffffffff
 )
 
 // Pie is a "panic-if-error" utility: panics if the passed error is not nil.
