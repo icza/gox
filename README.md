@@ -20,6 +20,7 @@ will be directly available:
 
 	import (
 		"fmt"
+		"strconv"
 
 		. "github.com/icza/gox"
 	)
