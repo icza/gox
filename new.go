@@ -1,42 +1,6 @@
-/*
-Package gox is a minimalistic extension to Go. It contains constants, helpers
-and utilities which could have been part of Go itself (could have been
-built-in).
+// This file contains helpers to obtain pointers to builtin types.
 
-The package is minimalistic, and introduces no dependency to any package.
-Most of the functions are eligible for inlining. And don't worry if you're not
-using some of the functions, the compiler will exclude those from your binary.
-
-An easy way to use this library is to "dot-import" the package so identifiers
-will be directly available, see the package example.
-
-*/
 package gox
-
-// Compile time constants to determine the min and max values of the int and uint types.
-const (
-	MaxUint = ^uint(0)
-	MinUint = 0
-	MaxInt  = int(MaxUint >> 1)
-	MinInt  = -MaxInt - 1
-)
-
-// Untyped bool constants telling if the architecture is 32 or 64 bit.
-const (
-	// Arch32bit tells if the target architecture is 32-bit.
-	Arch32bit = MaxUint == 0xffffffff
-
-	// Arch64bit tells if the target architecture is 64-bit.
-	Arch64bit = uint64(MaxUint) == 0xffffffffffffffff
-)
-
-// Pie is a "panic-if-error" utility: panics if the passed error is not nil.
-// Should not be over-used, but may come handy to write code quickly.
-func Pie(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
 
 // NewBool returns a pointer to the given bool value.
 func NewBool(b bool) *bool { return &b }
