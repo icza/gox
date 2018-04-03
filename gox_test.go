@@ -125,35 +125,40 @@ func TestIfFuncs(t *testing.T) {
 
 	for _, c := range cases {
 		for _, cond := range []bool{false, true} {
-			// Test the "standalone" function and the similar method of If
-			for round := 0; round < 2; round++ {
-				var params []reflect.Value
-				var fv reflect.Value
-				switch round {
-				case 0: // "standalone" function
-					fv = reflect.ValueOf(c.f)
-					params = append(params, reflect.ValueOf(cond))
-				case 1: // method of If
-					fv = reflect.ValueOf(If(cond)).MethodByName(c.name[2:])
-				}
-				params = append(params, reflect.ValueOf(c.a), reflect.ValueOf(c.b))
+			var exp interface{}
+			if cond {
+				exp = c.a
+			} else {
+				exp = c.b
+			}
 
-				results := fv.Call(params)
-				if len(results) != 1 {
-					t.Errorf("[%s(%v, %v, %v)] Expected 1 result(s), got: %d",
-						c.name, cond, c.a, c.b, len(results))
-				}
+			// First test the standalone function:
+			fv := reflect.ValueOf(c.f)
+			params := []reflect.Value{reflect.ValueOf(cond), reflect.ValueOf(c.a), reflect.ValueOf(c.b)}
 
-				var exp interface{}
-				if cond {
-					exp = c.a
-				} else {
-					exp = c.b
-				}
-				if got := results[0].Interface(); got != exp {
-					t.Errorf("[%s(%v, %v, %v)] Expected: %v, got: %v",
-						c.name, cond, c.a, c.b, exp, got)
-				}
+			results := fv.Call(params)
+			if len(results) != 1 {
+				t.Errorf("[%s(%v, %v, %v)] Expected 1 result(s), got: %d",
+					c.name, cond, c.a, c.b, len(results))
+			}
+			if got := results[0].Interface(); got != exp {
+				t.Errorf("[%s(%v, %v, %v)] Expected: %v, got: %v",
+					c.name, cond, c.a, c.b, exp, got)
+			}
+
+			// Next test the similar method of If:
+			name := c.name[2:] // Trim leading "If"
+			fv = reflect.ValueOf(If(cond)).MethodByName(name)
+			params = params[1:] // cond is not a param
+
+			results = fv.Call(params)
+			if len(results) != 1 {
+				t.Errorf("[If(%v).%s(%v, %v)] Expected 1 result(s), got: %d",
+					cond, name, c.a, c.b, len(results))
+			}
+			if got := results[0].Interface(); got != exp {
+				t.Errorf("[If(%v).%s(%v, %v)] Expected: %v, got: %v",
+					cond, name, c.a, c.b, exp, got)
 			}
 		}
 	}
