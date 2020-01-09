@@ -5,7 +5,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/icza/gox)](https://goreportcard.com/report/github.com/icza/gox)
 [![codecov](https://codecov.io/gh/icza/gox/branch/master/graph/badge.svg)](https://codecov.io/gh/icza/gox)
 
-_This package is in EXPERIMENTAL phase._
+_This module is in experimental phase._
 
 Package `gox` is a minimalistic extension to Go. It contains constants, helpers
 and utilities which could have been part of Go itself (could have been
