@@ -16,7 +16,7 @@ func ExampleRound() {
 		123 * time.Nanosecond,                          // 123ns
 	}
 
-	fmt.Println("Duration      |0 digits    |1 digit     |2 digits    |3 digits")
+	fmt.Println("Duration      |0 digits    |1 digit     |2 digits    |3 digits    |")
 	fmt.Println("-------------------------------------------------------------------")
 	for _, d := range ds {
 		fmt.Printf("%-14v|", d)
@@ -27,7 +27,7 @@ func ExampleRound() {
 	}
 
 	// Output:
-	// Duration      |0 digits    |1 digit     |2 digits    |3 digits
+	// Duration      |0 digits    |1 digit     |2 digits    |3 digits    |
 	// -------------------------------------------------------------------
 	// 1h0m1.123s    |1h0m1s      |1h0m1.1s    |1h0m1.12s   |1h0m1.123s  |
 	// 1h0m1.000001s |1h0m1s      |1h0m1s      |1h0m1s      |1h0m1s      |
