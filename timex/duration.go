@@ -39,13 +39,13 @@ func Round(d time.Duration, digits int) time.Duration {
 // The short format eludes trailing 0 units in the string.
 //
 // For example:
-//   -5h4m3s remains 5h4m3s
-//   -5h4m0s becomes 5h4m
-//   -5h0m3s remains 5h0m3s
-//   -4m3s   remains 4m3s
-//   -5h0m0s becomes 5h
-//   -4m0s   becomes 4m
-//   -3s     remains 3s
+//   5h4m3s  =>  5h4m3s
+//   5h4m0s  =>  5h4m
+//   5h0m3s  =>  5h0m3s
+//   4m3s    =>  4m3s
+//   5h0m0s  =>  5h
+//   4m0s    =>  4m
+//   3s      =>  3s
 //
 // For details, see https://stackoverflow.com/a/41336257/1705598
 func ShortDuration(d time.Duration) string {
