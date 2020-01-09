@@ -10,7 +10,7 @@ var roundDivs = []time.Duration{
 }
 
 // Round rounds the given duration so that when it is printed (when its String()
-// method is called), result will have the given fraction digits.
+// method is called), result will have the given fraction digits at most.
 //
 // For details, see https://stackoverflow.com/questions/58414820/limiting-significant-digits-in-formatted-durations/58415564#58415564
 func Round(d time.Duration, digits int) time.Duration {
