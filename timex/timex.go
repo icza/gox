@@ -10,7 +10,7 @@ import "time"
 // Diff calculates the absolute difference between 2 time instanes in
 // years, months, days, hours, minutes and seconds.
 //
-// For more details, see https://stackoverflow.com/questions/36530251/time-since-with-months-and-years/36531443#36531443
+// For more details, see https://stackoverflow.com/a/36531443/1705598
 func Diff(a, b time.Time) (year, month, day, hour, min, sec int) {
 	if a.Location() != b.Location() {
 		b = b.In(a.Location())
