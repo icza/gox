@@ -14,7 +14,7 @@ It contains constants, helpers and utilities which could have been part of Go it
 
 - `gox`: General extensions and utilities to Go itself. Reasonable to "dot-import"
 the package.
-- [`gox/timex`](https://github.com/icza/gox/tree/master/timex): contains time and duration related calculations and utilities.
+- [`gox/timex`](https://github.com/icza/gox/tree/master/timex): time and duration related calculations and utilities.
 It means to be a complement to the standard `time` package.
 
 ## `gox` package
