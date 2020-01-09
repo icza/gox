@@ -163,3 +163,23 @@ func TestIfFuncs(t *testing.T) {
 		}
 	}
 }
+
+func TestWrap(t *testing.T) {
+	cases := []struct {
+		name string
+		in   []interface{}
+		out  []interface{}
+	}{
+		{"nil", nil, nil},
+		{"empty", []interface{}{}, []interface{}{}},
+		{"one", []interface{}{1}, []interface{}{1}},
+		{"two", []interface{}{byte(1), "two"}, []interface{}{byte(1), "two"}},
+	}
+
+	for _, c := range cases {
+		if got := Wrap(c.in...); !reflect.DeepEqual(got, c.out) {
+			t.Errorf("[%s] Expected: %#v, got: %#v",
+				c.name, c.out, got)
+		}
+	}
+}
