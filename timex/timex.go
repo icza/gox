@@ -1,8 +1,5 @@
-/*
-Package timex contains time- and time-calculation related utilities and helpers.
+// This file contains time-related utilities.
 
-The package uses only the standard time and strings packages.
-*/
 package timex
 
 import "time"
