@@ -14,8 +14,10 @@ func ExampleDiff() {
 
 	year, month, day, hour, min, sec := Diff(birthday, now)
 
-	fmt.Printf("You are %d years, %d months, %d days, %d hours, %d mins and %d seconds old.",
-		year, month, day, hour, min, sec)
+	fmt.Printf(
+		"You are %d years, %d months, %d days, %d hours, %d mins and %d seconds old.",
+		year, month, day, hour, min, sec,
+	)
 
 	// Output:
 	// You are 40 years, 2 months, 7 days, 10 hours, 27 mins and 46 seconds old.
