@@ -83,3 +83,81 @@ func TestRound(t *testing.T) {
 		t.Errorf("[negative-digits] Expected: %v, got: %v", exp, got)
 	}
 }
+
+// ExampleShortDuration shows how to use the ShortDuration() function.
+func ExampleShortDuration() {
+	h, m, s := 5*time.Hour, 4*time.Minute, 3*time.Second
+	ds := []time.Duration{
+		h + m + s, h + m, h + s, m + s, h, m, s,
+	}
+
+	fmt.Println("Default | Short   |")
+	fmt.Println("-------------------")
+	for _, d := range ds {
+		fmt.Printf("%-8v| %-8v|\n", d, ShortDuration(d))
+	}
+
+	// Output:
+	// Default | Short   |
+	// -------------------
+	// 5h4m3s  | 5h4m3s  |
+	// 5h4m0s  | 5h4m    |
+	// 5h0m3s  | 5h0m3s  |
+	// 4m3s    | 4m3s    |
+	// 5h0m0s  | 5h      |
+	// 4m0s    | 4m      |
+	// 3s      | 3s      |
+}
+
+func TestShortDuration(t *testing.T) {
+	h, m, s := 5*time.Hour, 4*time.Minute, 3*time.Second
+
+	cases := []struct {
+		name string // Name of the test case
+		d    time.Duration
+		exp  string
+	}{
+		{
+			"no-truncation-hms",
+			h + m + s, // 5h4m3s
+			"5h4m3s",
+		},
+		{
+			"truncate-sec",
+			h + m, // 5h4m0s
+			"5h4m",
+		},
+		{
+			"truncate-sec-2",
+			m, // 4m0s
+			"4m",
+		},
+		{
+			"no-truncation-hs",
+			h + s, // 5h0m3s
+			"5h0m3s",
+		},
+		{
+			"no-truncation-ms",
+			m + s, // 4m3s
+			"4m3s",
+		},
+		{
+			"truncate-min-sec",
+			h, // 5h0m0s
+			"5h",
+		},
+		{
+			"no-truncation-s",
+			s, // 3s
+			"3s",
+		},
+	}
+
+	for _, c := range cases {
+		if got := ShortDuration(c.d); got != c.exp {
+			t.Errorf("[%s] Expected: %v, got: %v", c.name, c.exp, got)
+		}
+	}
+
+}

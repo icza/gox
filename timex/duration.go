@@ -2,7 +2,10 @@
 
 package timex
 
-import "time"
+import (
+	"strings"
+	"time"
+)
 
 var roundDivs = []time.Duration{
 	time.Duration(1), time.Duration(10), time.Duration(100), time.Duration(1000),
@@ -30,4 +33,28 @@ func Round(d time.Duration, digits int) time.Duration {
 		d = d.Round(time.Microsecond / roundDivs[digits])
 	}
 	return d
+}
+
+// ShortDuration formats the given duration into a short format.
+// The short format eludes trailing 0 units in the string.
+//
+// For example:
+//   -5h4m3s remains 5h4m3s
+//   -5h4m0s becomes 5h4m
+//   -5h0m3s remains 5h0m3s
+//   -4m3s   remains 4m3s
+//   -5h0m0s becomes 5h
+//   -4m0s   becomes 4m
+//   -3s     remains 3s
+//
+// For details, see https://stackoverflow.com/questions/41335155/time-duration-to-string-2h-instead-2h0m0s/41336257#41336257
+func ShortDuration(d time.Duration) string {
+	s := d.String()
+	if strings.HasSuffix(s, "m0s") {
+		s = s[:len(s)-2]
+	}
+	if strings.HasSuffix(s, "h0m") {
+		s = s[:len(s)-2]
+	}
+	return s
 }
