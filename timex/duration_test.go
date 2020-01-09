@@ -16,24 +16,24 @@ func ExampleRound() {
 		123 * time.Nanosecond,                          // 123ns
 	}
 
-	fmt.Println("Duration      |0 digits      |1 digit       |2 digits      |3 digits")
-	fmt.Println("---------------------------------------------------------------------------")
+	fmt.Println("Duration      |0 digits    |1 digit     |2 digits    |3 digits")
+	fmt.Println("-------------------------------------------------------------------")
 	for _, d := range ds {
 		fmt.Printf("%-14v|", d)
 		for digits := 0; digits <= 3; digits++ {
-			fmt.Printf("%-14v|", Round(d, digits))
+			fmt.Printf("%-12v|", Round(d, digits))
 		}
 		fmt.Println()
 	}
 
 	// Output:
-	// Duration      |0 digits      |1 digit       |2 digits      |3 digits
-	// ---------------------------------------------------------------------------
-	// 1h0m1.123s    |1h0m1s        |1h0m1.1s      |1h0m1.12s     |1h0m1.123s    |
-	// 1h0m1.000001s |1h0m1s        |1h0m1s        |1h0m1s        |1h0m1s        |
-	// 123.456789ms  |123ms         |123.5ms       |123.46ms      |123.457ms     |
-	// 123.456µs     |123µs         |123.5µs       |123.46µs      |123.456µs     |
-	// 123ns         |123ns         |123ns         |123ns         |123ns         |
+	// Duration      |0 digits    |1 digit     |2 digits    |3 digits
+	// -------------------------------------------------------------------
+	// 1h0m1.123s    |1h0m1s      |1h0m1.1s    |1h0m1.12s   |1h0m1.123s  |
+	// 1h0m1.000001s |1h0m1s      |1h0m1s      |1h0m1s      |1h0m1s      |
+	// 123.456789ms  |123ms       |123.5ms     |123.46ms    |123.457ms   |
+	// 123.456µs     |123µs       |123.5µs     |123.46µs    |123.456µs   |
+	// 123ns         |123ns       |123ns       |123ns       |123ns       |
 }
 
 func TestRound(t *testing.T) {
