@@ -84,8 +84,8 @@ func ExampleWeekStart() {
 		{2019, 54},
 	}
 	for _, c := range inputs {
-		fmt.Printf("Week (%d,%2d) starts on: %v\n", c.year, c.week, WeekStart(c.year, c.week))
-
+		fmt.Printf("Week (%d,%2d) starts on: %v\n",
+			c.year, c.week, WeekStart(c.year, c.week))
 	}
 
 	// Output:
