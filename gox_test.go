@@ -2,8 +2,10 @@ package gox
 
 import (
 	"errors"
+	"fmt"
 	"reflect"
 	"testing"
+	"time"
 )
 
 func TestMinMaxUint(t *testing.T) {
@@ -162,6 +164,17 @@ func TestIfFuncs(t *testing.T) {
 			}
 		}
 	}
+}
+
+// ExampleWrap shows how to use the Wrap() function.
+func ExampleWrap() {
+	now := time.Date(2020, 3, 4, 0, 0, 0, 0, time.UTC)
+	// Note that without Wrap it's a compile-time error.
+	fmt.Printf("Year: %d, month: %d, day: %d\n",
+		Wrap(now.Date())...)
+
+	// Output:
+	// Year: 2020, month: 3, day: 4
 }
 
 func TestWrap(t *testing.T) {
