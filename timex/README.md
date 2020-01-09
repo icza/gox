@@ -1,6 +1,8 @@
 # gox
 
-Package `timex` contains time- and time-calculation related utilities and helpers.
+[![GoDoc](https://godoc.org/github.com/icza/gox/timex?status.svg)](https://godoc.org/github.com/icza/gox/timex)
+
+Package `timex` contains time and duration related calculations and utilities.
 It means to be a complement to the standard `time` package.
 
 The package uses only the standard `time` and `strings` packages.
