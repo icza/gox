@@ -100,3 +100,70 @@ func ExampleWeekStart() {
 	// Week (2019,53) starts on: 2019-12-30 00:00:00 +0000 UTC
 	// Week (2019,54) starts on: 2020-01-06 00:00:00 +0000 UTC
 }
+
+func TestParseMonth(t *testing.T) {
+	cases := []struct {
+		name   string     // Name of the test case
+		inputs []string   // inputs
+		exp    time.Month // expected output
+		err    bool       // true if error is expected
+	}{
+		{"January", []string{"January", "Jan"}, time.January, false},
+		{"February", []string{"February", "Feb"}, time.February, false},
+		{"March", []string{"March", "Mar"}, time.March, false},
+		{"April", []string{"April", "Apr"}, time.April, false},
+		{"May", []string{"May"}, time.May, false},
+		{"June", []string{"June", "Jun"}, time.June, false},
+		{"July", []string{"July", "Jul"}, time.July, false},
+		{"August", []string{"August", "Aug"}, time.August, false},
+		{"September", []string{"September", "Sep"}, time.September, false},
+		{"October", []string{"October", "Oct"}, time.October, false},
+		{"November", []string{"November", "Nov"}, time.November, false},
+		{"December", []string{"December", "Dec"}, time.December, false},
+		{"invalid", []string{"invalid", "ii", "january"}, time.January, true},
+	}
+
+	for _, c := range cases {
+		for _, s := range c.inputs {
+			got, err := ParseMonth(s)
+			if c.err != (err != nil) {
+				t.Errorf("[%s(%s)] Expected error: %v, got: %v", c.name, s, c.err, err)
+			} else {
+				if got != c.exp {
+					t.Errorf("[%s(%s)] Expected: %v, got: %v", c.name, s, c.exp, got)
+				}
+			}
+		}
+	}
+}
+
+func TestParseWeekday(t *testing.T) {
+	cases := []struct {
+		name   string       // Name of the test case
+		inputs []string     // inputs
+		exp    time.Weekday // expected output
+		err    bool         // true if error is expected
+	}{
+		{"Monday", []string{"Monday", "Mon"}, time.Monday, false},
+		{"Tuesday", []string{"Tuesday", "Tue"}, time.Tuesday, false},
+		{"Wednesday", []string{"Wednesday", "Wed"}, time.Wednesday, false},
+		{"Thursday", []string{"Thursday", "Thu"}, time.Thursday, false},
+		{"Friday", []string{"Friday", "Fri"}, time.Friday, false},
+		{"Saturday", []string{"Saturday", "Sat"}, time.Saturday, false},
+		{"Sunday", []string{"Sunday", "Sun"}, time.Sunday, false},
+		{"invalid", []string{"invalid", "ii", "january"}, time.Sunday, true},
+	}
+
+	for _, c := range cases {
+		for _, s := range c.inputs {
+			got, err := ParseWeekday(s)
+			if c.err != (err != nil) {
+				t.Errorf("[%s(%s)] Expected error: %v, got: %v", c.name, s, c.err, err)
+			} else {
+				if got != c.exp {
+					t.Errorf("[%s(%s)] Expected: %v, got: %v", c.name, s, c.exp, got)
+				}
+			}
+		}
+	}
+}

@@ -159,5 +159,4 @@ func TestShortDuration(t *testing.T) {
 			t.Errorf("[%s] Expected: %v, got: %v", c.name, c.exp, got)
 		}
 	}
-
 }

@@ -2,7 +2,10 @@
 
 package timex
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 // Diff calculates the absolute difference between 2 time instanes in
 // years, months, days, hours, minutes and seconds.
@@ -85,4 +88,50 @@ func WeekStart(year, week int) time.Time {
 	t = t.AddDate(0, 0, (week-w)*7)
 
 	return t
+}
+
+var months = map[string]time.Month{}
+
+func init() {
+	for i := time.January; i <= time.December; i++ {
+		name := i.String()
+		months[name] = i
+		months[name[:3]] = i
+	}
+}
+
+// ParseMonth parses a month given by its name.
+// Both long names such as "January", "February" and short names such as
+// "Jan", "Feb" are recognized.
+//
+// For details, see https://stackoverflow.com/a/59681275/1705598
+func ParseMonth(s string) (time.Month, error) {
+	if m, ok := months[s]; ok {
+		return m, nil
+	}
+
+	return time.January, fmt.Errorf("invalid month '%s'", s)
+}
+
+var weekdays = map[string]time.Weekday{}
+
+func init() {
+	for d := time.Sunday; d <= time.Saturday; d++ {
+		name := d.String()
+		weekdays[name] = d
+		weekdays[name[:3]] = d
+	}
+}
+
+// ParseWeekday parses a weekday given by its name.
+// Both long names such as "Monday", "Tuesday" and short names such as
+// "Mon", "Tue" are recognized.
+//
+// For details, see https://stackoverflow.com/a/52456320/1705598
+func ParseWeekday(s string) (time.Weekday, error) {
+	if d, ok := weekdays[s]; ok {
+		return d, nil
+	}
+
+	return time.Sunday, fmt.Errorf("invalid weekday '%s'", s)
 }
