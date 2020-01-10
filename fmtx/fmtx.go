@@ -8,7 +8,7 @@ import (
 
 // FormatInt formats an integer with grouping decimals, in decimal radix.
 // Grouping signs are inserted after every groupSize digits, starting from the right.
-// A groupingSize less than 0 will use the default 3.
+// A groupingSize less than 1 will default to 3.
 // Only ASCII grouping decimal signs are supported which may be provided with
 // grouping.
 //
