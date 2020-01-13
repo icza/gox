@@ -16,6 +16,8 @@ It contains constants, helpers and utilities which could have been part of Go it
 the package.
 - [`gox/fmtx`](https://github.com/icza/gox/tree/master/fmtx): formatting utilities,
 complement to the standard `fmt` package.
+- [`gox/imagex/colorx`](https://github.com/icza/gox/tree/master/imagex/colorx): color utilities,
+complement to the standard `image/color` package.
 - [`gox/timex`](https://github.com/icza/gox/tree/master/timex): time and duration related calculations and utilities,
 complement to the standard `time` package.
 
