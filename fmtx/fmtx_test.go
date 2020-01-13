@@ -143,3 +143,36 @@ func TestFormatSize(t *testing.T) {
 		}
 	}
 }
+
+// ExampleFormatInt shows how to use the CondSprintf() function.
+func ExampleCondSprintf() {
+	fmt.Println(CondSprintf("Foo%s", "bar", "baz"))
+	fmt.Println(CondSprintf("%d + %d = %d", 1, 2, 3, "extra", 4))
+
+	// Output:
+	// Foobar
+	// 1 + 2 = 3
+}
+
+func TestCondSprintf(t *testing.T) {
+	cases := []struct {
+		format string
+		args   []interface{}
+		exp    string
+	}{
+		{"", nil, ""},
+		{"Foo", nil, "Foo"},
+		{"%s", []interface{}{"bar"}, "bar"},
+		{"Foo%s", []interface{}{"bar"}, "Foobar"},
+		{"Foo%s", []interface{}{"bar", "extra"}, "Foobar"},
+		{"Foo", []interface{}{"bar"}, "Foo"},
+		{"foo%s%[3]s", []interface{}{"bar", "baz", "1"}, "foobar1"},
+		{"foo%[2]*d=%[1]d+%d", []interface{}{2, 3, 5, 9, "x"}, "foo  5=2+3"},
+	}
+
+	for i, c := range cases {
+		if got := CondSprintf(c.format, c.args...); got != c.exp {
+			t.Errorf("[%d] Expected: %v, got: %v", i, c.exp, got)
+		}
+	}
+}

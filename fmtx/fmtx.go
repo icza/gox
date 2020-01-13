@@ -115,3 +115,13 @@ func FormatSize(size int64, unit SizeUnit, fractionDigits int) string {
 
 	return fmt.Sprintf("%.[1]*f %s", fractionDigits, float64(size)/divisor, unit)
 }
+
+// CondSprintf is like fmt.Sprintf(), but extra arguments (that have no verb
+// in the format string) are ignored (not treated as an error).
+//
+// For details, see https://stackoverflow.com/a/59696492/1705598
+func CondSprintf(format string, v ...interface{}) string {
+	v = append(v, "")
+	format += fmt.Sprint("%[", len(v), "]s")
+	return fmt.Sprintf(format, v...)
+}
