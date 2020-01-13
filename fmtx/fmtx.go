@@ -3,6 +3,7 @@
 package fmtx
 
 import (
+	"fmt"
 	"strconv"
 )
 
@@ -40,4 +41,77 @@ func FormatInt(n int64, groupSize int, grouping byte) string {
 			out[j] = grouping
 		}
 	}
+}
+
+// SizeUnit is the type of the unit sizes
+type SizeUnit string
+
+const (
+	// SizeUnitAuto indicates a unit that should be chosen automatically
+	// based on the size value
+	SizeUnitAuto SizeUnit = "(auto)"
+	// SizeUnitBytes is the bytes unit size
+	SizeUnitBytes SizeUnit = "bytes"
+	// SizeUnitKB is the KB (2^10 bytes) unit size
+	SizeUnitKB SizeUnit = "KB"
+	// SizeUnitMB is the MB (2^20 bytes) unit size
+	SizeUnitMB SizeUnit = "MB"
+	// SizeUnitGB is the GB (2^30 bytes) unit size
+	SizeUnitGB SizeUnit = "GB"
+	// SizeUnitTB is the TB (2^40 bytes) unit size
+	SizeUnitTB SizeUnit = "TB"
+	// SizeUnitPB is the PB (2^50 bytes) unit size
+	SizeUnitPB SizeUnit = "PB"
+	// SizeUnitEB is the EB (2^60 bytes) unit size
+	SizeUnitEB SizeUnit = "EB"
+)
+
+// FormatSize formats the given size using the given size unit, rounding and using
+// the given number of fraction digits.
+//
+// If SizeUnitAuto is specified, the unit will be automatically selected based
+// on the size value.
+//
+// Behavior for negative size values is undefined.
+func FormatSize(size int64, unit SizeUnit, fractionDigits int) string {
+	if unit == SizeUnitAuto {
+		switch {
+		case size < 1000:
+			unit = SizeUnitBytes
+		case size < 1000<<10:
+			unit = SizeUnitKB
+		case size < 1024<<20:
+			unit = SizeUnitMB
+		case size < 1024<<30:
+			unit = SizeUnitGB
+		case size < 1024<<40:
+			unit = SizeUnitTB
+		case size < 1024<<50:
+			unit = SizeUnitPB
+		default:
+			unit = SizeUnitEB
+		}
+	}
+
+	if unit == SizeUnitBytes {
+		return fmt.Sprint(size, " ", unit)
+	}
+
+	var divisor float64
+	switch unit {
+	case SizeUnitKB:
+		divisor = 1 << 10
+	case SizeUnitMB:
+		divisor = 1 << 20
+	case SizeUnitGB:
+		divisor = 1 << 30
+	case SizeUnitTB:
+		divisor = 1 << 40
+	case SizeUnitPB:
+		divisor = 1 << 50
+	default:
+		divisor = 1 << 60
+	}
+
+	return fmt.Sprintf("%.[1]*f %s", fractionDigits, float64(size)/divisor, unit)
 }

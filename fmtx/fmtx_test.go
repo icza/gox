@@ -58,3 +58,88 @@ func TestFormatInt(t *testing.T) {
 		}
 	}
 }
+
+func TestFormatSize(t *testing.T) {
+	cases := []struct {
+		size           int64
+		unit           SizeUnit
+		fractionDigits int
+		exp            string
+	}{
+		{0, SizeUnitBytes, 0, "0 bytes"},
+		{100, SizeUnitBytes, 0, "100 bytes"},
+		{999, SizeUnitBytes, 0, "999 bytes"},
+		{1200, SizeUnitBytes, 0, "1200 bytes"},
+
+		{0, SizeUnitKB, 0, "0 KB"},
+		{0, SizeUnitKB, 1, "0.0 KB"},
+		{100, SizeUnitKB, 0, "0 KB"},
+		{600, SizeUnitKB, 0, "1 KB"},
+		{600, SizeUnitKB, 1, "0.6 KB"},
+		{600, SizeUnitKB, 2, "0.59 KB"},
+		{2048, SizeUnitKB, 2, "2.00 KB"},
+
+		{0, SizeUnitMB, 0, "0 MB"},
+		{0, SizeUnitMB, 1, "0.0 MB"},
+		{100 << 10, SizeUnitMB, 0, "0 MB"},
+		{600 << 10, SizeUnitMB, 0, "1 MB"},
+		{600 << 10, SizeUnitMB, 1, "0.6 MB"},
+		{600 << 10, SizeUnitMB, 2, "0.59 MB"},
+		{2048 << 10, SizeUnitMB, 2, "2.00 MB"},
+
+		{0, SizeUnitGB, 0, "0 GB"},
+		{0, SizeUnitGB, 1, "0.0 GB"},
+		{100 << 20, SizeUnitGB, 0, "0 GB"},
+		{600 << 20, SizeUnitGB, 0, "1 GB"},
+		{600 << 20, SizeUnitGB, 1, "0.6 GB"},
+		{600 << 20, SizeUnitGB, 2, "0.59 GB"},
+		{2048 << 20, SizeUnitGB, 2, "2.00 GB"},
+
+		{0, SizeUnitTB, 0, "0 TB"},
+		{0, SizeUnitTB, 1, "0.0 TB"},
+		{100 << 30, SizeUnitTB, 0, "0 TB"},
+		{600 << 30, SizeUnitTB, 0, "1 TB"},
+		{600 << 30, SizeUnitTB, 1, "0.6 TB"},
+		{600 << 30, SizeUnitTB, 2, "0.59 TB"},
+		{2048 << 30, SizeUnitTB, 2, "2.00 TB"},
+
+		{0, SizeUnitPB, 0, "0 PB"},
+		{0, SizeUnitPB, 1, "0.0 PB"},
+		{100 << 40, SizeUnitPB, 0, "0 PB"},
+		{600 << 40, SizeUnitPB, 0, "1 PB"},
+		{600 << 40, SizeUnitPB, 1, "0.6 PB"},
+		{600 << 40, SizeUnitPB, 2, "0.59 PB"},
+		{2048 << 40, SizeUnitPB, 2, "2.00 PB"},
+
+		{0, SizeUnitEB, 0, "0 EB"},
+		{0, SizeUnitEB, 1, "0.0 EB"},
+		{100 << 50, SizeUnitEB, 0, "0 EB"},
+		{600 << 50, SizeUnitEB, 0, "1 EB"},
+		{600 << 50, SizeUnitEB, 1, "0.6 EB"},
+		{600 << 50, SizeUnitEB, 2, "0.59 EB"},
+		{2048 << 50, SizeUnitEB, 2, "2.00 EB"},
+
+		{0, SizeUnitAuto, 0, "0 bytes"},
+		{100, SizeUnitAuto, 0, "100 bytes"},
+		{100, SizeUnitAuto, 1, "100 bytes"},
+		{999, SizeUnitAuto, 0, "999 bytes"},
+		{1000, SizeUnitAuto, 0, "1 KB"},
+		{1000, SizeUnitAuto, 1, "1.0 KB"},
+		{1000, SizeUnitAuto, 2, "0.98 KB"},
+		{1024, SizeUnitAuto, 2, "1.00 KB"},
+		{999 << 10, SizeUnitAuto, 2, "999.00 KB"},
+		{999<<10 + 500, SizeUnitAuto, 2, "999.49 KB"},
+		{1000 << 10, SizeUnitAuto, 2, "0.98 MB"},
+		{2 << 20, SizeUnitAuto, 1, "2.0 MB"},
+		{2 << 30, SizeUnitAuto, 1, "2.0 GB"},
+		{2 << 40, SizeUnitAuto, 1, "2.0 TB"},
+		{2 << 50, SizeUnitAuto, 1, "2.0 PB"},
+		{2 << 60, SizeUnitAuto, 1, "2.0 EB"},
+	}
+
+	for i, c := range cases {
+		if got := FormatSize(c.size, c.unit, c.fractionDigits); got != c.exp {
+			t.Errorf("[%d] Expected: %v, got: %v", i, c.exp, got)
+		}
+	}
+}
