@@ -47,7 +47,7 @@ func FormatInt(n int64, groupSize int, grouping byte) string {
 type SizeUnit string
 
 const (
-	// SizeUnitAuto indicates a unit that should be chosen automatically
+	// SizeUnitAuto indicates that another unit is to be chosen automatically
 	// based on the size value
 	SizeUnitAuto SizeUnit = "(auto)"
 	// SizeUnitBytes is the bytes unit size
