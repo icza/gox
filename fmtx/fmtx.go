@@ -119,6 +119,9 @@ func FormatSize(size int64, unit SizeUnit, fractionDigits int) string {
 // CondSprintf is like fmt.Sprintf(), but extra arguments (that have no verb
 // in the format string) are ignored (not treated as an error).
 //
+// Usually mismatching format string and arguments is an indication of a bug
+// in your code (in how you call fmt.Sprintf()), so you should not overuse this.
+//
 // For details, see https://stackoverflow.com/a/59696492/1705598
 func CondSprintf(format string, v ...interface{}) string {
 	v = append(v, "")
