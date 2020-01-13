@@ -50,23 +50,23 @@ const (
 	// SizeUnitAuto indicates that another unit is to be chosen automatically
 	// based on the size value
 	SizeUnitAuto SizeUnit = "(auto)"
-	// SizeUnitBytes is the bytes unit size
-	SizeUnitBytes SizeUnit = "bytes"
-	// SizeUnitKB is the KB (2^10 bytes) unit size
+	// SizeUnitByte is the byte unit size
+	SizeUnitByte SizeUnit = "bytes"
+	// SizeUnitKB is the kilobyte (2^10 bytes) unit size
 	SizeUnitKB SizeUnit = "KB"
-	// SizeUnitMB is the MB (2^20 bytes) unit size
+	// SizeUnitMB is the megabyte (2^20 bytes) unit size
 	SizeUnitMB SizeUnit = "MB"
-	// SizeUnitGB is the GB (2^30 bytes) unit size
+	// SizeUnitGB is the gigabyte (2^30 bytes) unit size
 	SizeUnitGB SizeUnit = "GB"
-	// SizeUnitTB is the TB (2^40 bytes) unit size
+	// SizeUnitTB is the terabyte (2^40 bytes) unit size
 	SizeUnitTB SizeUnit = "TB"
-	// SizeUnitPB is the PB (2^50 bytes) unit size
+	// SizeUnitPB is the petabyte (2^50 bytes) unit size
 	SizeUnitPB SizeUnit = "PB"
-	// SizeUnitEB is the EB (2^60 bytes) unit size
+	// SizeUnitEB is the exabyte (2^60 bytes) unit size
 	SizeUnitEB SizeUnit = "EB"
 )
 
-// FormatSize formats the given size using the given size unit, rounding and using
+// FormatSize formats the given size value using the given size unit, rounding to
 // the given number of fraction digits.
 //
 // If SizeUnitAuto is specified, the unit will be automatically selected based
@@ -77,7 +77,7 @@ func FormatSize(size int64, unit SizeUnit, fractionDigits int) string {
 	if unit == SizeUnitAuto {
 		switch {
 		case size < 1000:
-			unit = SizeUnitBytes
+			unit = SizeUnitByte
 		case size < 1000<<10:
 			unit = SizeUnitKB
 		case size < 1024<<20:
@@ -93,8 +93,8 @@ func FormatSize(size int64, unit SizeUnit, fractionDigits int) string {
 		}
 	}
 
-	if unit == SizeUnitBytes {
-		return fmt.Sprint(size, " "+SizeUnitBytes)
+	if unit == SizeUnitByte {
+		return fmt.Sprint(size, " "+SizeUnitByte)
 	}
 
 	var divisor float64

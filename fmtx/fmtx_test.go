@@ -66,10 +66,10 @@ func TestFormatSize(t *testing.T) {
 		fractionDigits int
 		exp            string
 	}{
-		{0, SizeUnitBytes, 0, "0 bytes"},
-		{100, SizeUnitBytes, 0, "100 bytes"},
-		{999, SizeUnitBytes, 0, "999 bytes"},
-		{1200, SizeUnitBytes, 0, "1200 bytes"},
+		{0, SizeUnitByte, 0, "0 bytes"},
+		{100, SizeUnitByte, 0, "100 bytes"},
+		{999, SizeUnitByte, 0, "999 bytes"},
+		{1200, SizeUnitByte, 0, "1200 bytes"},
 
 		{0, SizeUnitKB, 0, "0 KB"},
 		{0, SizeUnitKB, 1, "0.0 KB"},
