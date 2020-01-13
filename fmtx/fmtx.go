@@ -94,7 +94,7 @@ func FormatSize(size int64, unit SizeUnit, fractionDigits int) string {
 	}
 
 	if unit == SizeUnitBytes {
-		return fmt.Sprint(size, " ", unit)
+		return fmt.Sprint(size, " "+SizeUnitBytes)
 	}
 
 	var divisor float64
