@@ -26,3 +26,24 @@ func AbsInt(i int) int {
 func Round(x, unit float64) float64 {
 	return math.Round(x/unit) * unit
 }
+
+// Near checks if 2 float64 numbers are "near" to each other.
+// The caller is responsible to provide a sensible epsilon.
+//
+// "near" is defined as the following:
+//     near := math.Abs(a - b) < eps
+//
+// Corner cases:
+//  1. if a==b, result is true (eps will not be checked, may be NaN)
+//  2. Inf is near to Inf (even if eps=NaN; consequence of 1.)
+//  3. -Inf is near to -Inf (even if eps=NaN; consequence of 1.)
+//  4. NaN is not near to anything (not even to NaN)
+//  5. eps=Inf results in true (unless any of a or b is NaN)
+func Near(a, b, eps float64) bool {
+	// Quick check, also handles infinities:
+	if a == b {
+		return true
+	}
+
+	return math.Abs(a-b) < eps
+}

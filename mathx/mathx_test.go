@@ -61,3 +61,43 @@ func ExampleRound() {
 	// -35.0000
 	// -30.0000
 }
+
+func TestNear(t *testing.T) {
+	inf, neginf, nan := math.Inf(1), math.Inf(-1), math.NaN()
+	cases := []struct {
+		a, b, eps float64
+		exp       bool
+	}{
+		{1.0, 1.0, 1e-6, true},
+		{1.0, 1.001, 1e-6, false},
+		{1.0, 1.001, 1e-2, true},
+
+		// Corner cases
+		{inf, 1.001, 1e-2, false},
+		{neginf, 1.001, 1e-2, false},
+		{inf, inf, 1e-2, true},
+		{neginf, neginf, 1e-2, true},
+		{inf, neginf, 1e-2, false},
+
+		{1.0, 1.1, inf, true},
+		{1.0, inf, inf, false},
+		{inf, inf, inf, true},
+		{neginf, neginf, inf, true},
+
+		{1.0, nan, 1e10, false},
+		{1.0, nan, inf, false},
+		{nan, nan, 1e10, false},
+		{nan, nan, inf, false},
+
+		{1.0, 1.0, nan, true},
+		{1.0, 1.001, nan, false},
+		{inf, inf, nan, true},
+		{neginf, neginf, nan, true},
+	}
+
+	for i, c := range cases {
+		if got := Near(c.a, c.b, c.eps); c.exp != got {
+			t.Errorf("[i=%d] Expected: %v, got: %v", i, c.exp, got)
+		}
+	}
+}
