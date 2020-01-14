@@ -25,19 +25,39 @@ func TestAbsInt(t *testing.T) {
 }
 
 func ExampleRound() {
-	fmt.Printf("%.4f\n", Round(0.363636, 0.05)) // 0.35
-	fmt.Printf("%.4f\n", Round(3.232, 0.05))    // 3.25
-	fmt.Printf("%.4f\n", Round(0.4888, 0.05))   // 0.5
+	fmt.Printf("%.4f\n", Round(0.363636, 0.001)) // 0.364
+	fmt.Printf("%.4f\n", Round(0.363636, 0.01))  // 0.36
+	fmt.Printf("%.4f\n", Round(0.363636, 0.1))   // 0.4
+	fmt.Printf("%.4f\n", Round(0.363636, 0.05))  // 0.35
+	fmt.Printf("%.4f\n", Round(3.2, 1))          // 3
+	fmt.Printf("%.4f\n", Round(32, 5))           // 30
+	fmt.Printf("%.4f\n", Round(33, 5))           // 35
+	fmt.Printf("%.4f\n", Round(32, 10))          // 30
 
-	fmt.Printf("%.4f\n", Round(-0.363636, 0.05)) // -0.35
-	fmt.Printf("%.4f\n", Round(-3.232, 0.05))    // -3.25
-	fmt.Printf("%.4f\n", Round(-0.4888, 0.05))   // -0.5
+	fmt.Printf("%.4f\n", Round(-0.363636, 0.001)) // -0.364
+	fmt.Printf("%.4f\n", Round(-0.363636, 0.01))  // -0.36
+	fmt.Printf("%.4f\n", Round(-0.363636, 0.1))   // -0.4
+	fmt.Printf("%.4f\n", Round(-0.363636, 0.05))  // -0.35
+	fmt.Printf("%.4f\n", Round(-3.2, 1))          // -3
+	fmt.Printf("%.4f\n", Round(-32, 5))           // -30
+	fmt.Printf("%.4f\n", Round(-33, 5))           // -35
+	fmt.Printf("%.4f\n", Round(-32, 10))          // -30
 
 	// Output:
+	// 0.3640
+	// 0.3600
+	// 0.4000
 	// 0.3500
-	// 3.2500
-	// 0.5000
+	// 3.0000
+	// 30.0000
+	// 35.0000
+	// 30.0000
+	// -0.3640
+	// -0.3600
+	// -0.4000
 	// -0.3500
-	// -3.2500
-	// -0.5000
+	// -3.0000
+	// -30.0000
+	// -35.0000
+	// -30.0000
 }
