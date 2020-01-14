@@ -1,6 +1,14 @@
 // This file contains general utilities that do not warrant their own file.
 
-package gox
+package builtinx
+
+// Pie is a "panic-if-error" utility: panics if the passed error is not nil.
+// Should not be over-used, but may come handy to write code quickly.
+func Pie(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
 
 // Wrap returns its arguments as a slice.
 //

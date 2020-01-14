@@ -1,6 +1,6 @@
 // This file contains helpers to obtain pointers to builtin types.
 
-package gox
+package builtinx
 
 // NewBool returns a pointer to the given bool value.
 func NewBool(b bool) *bool { return &b }

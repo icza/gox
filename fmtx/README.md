@@ -1,4 +1,4 @@
-# gox
+# fmtx
 
 [![GoDoc](https://godoc.org/github.com/icza/gox/fmtx?status.svg)](https://godoc.org/github.com/icza/gox/fmtx)
 

@@ -1,4 +1,4 @@
-# gox
+# mathx
 
 [![GoDoc](https://godoc.org/github.com/icza/gox/mathx?status.svg)](https://godoc.org/github.com/icza/gox/mathx)
 

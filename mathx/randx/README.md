@@ -1,4 +1,4 @@
-# gox
+# randx
 
 [![GoDoc](https://godoc.org/github.com/icza/gox/mathx/randx?status.svg)](https://godoc.org/github.com/icza/gox/mathx/randx)
 

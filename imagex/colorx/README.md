@@ -1,4 +1,4 @@
-# gox
+# colorx
 
 [![GoDoc](https://godoc.org/github.com/icza/gox/imagex/colorx?status.svg)](https://godoc.org/github.com/icza/gox/imagex/colorx)
 

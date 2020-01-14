@@ -1,4 +1,4 @@
-package gox
+package builtinx
 
 import (
 	"errors"
@@ -7,42 +7,6 @@ import (
 	"testing"
 	"time"
 )
-
-func TestMinMaxUint(t *testing.T) {
-	var max uint
-	max = ^max
-
-	if MaxUint != max {
-		t.Errorf("MaxUint is not max!")
-	}
-	if MinUint != max+1 {
-		t.Errorf("MinUint is not min!")
-	}
-}
-
-func TestMinMaxInt(t *testing.T) {
-	maxuint := uint(0)
-	maxuint = ^maxuint
-	max := int(maxuint >> 1)
-
-	if MaxInt != max {
-		t.Errorf("MaxInt is not max!")
-	}
-	if MinInt != -max-1 {
-		t.Errorf("MinInt is not min!")
-	}
-}
-
-func TestArchConsts(t *testing.T) {
-	arch32bit := reflect.TypeOf(0).Size() == 4
-
-	if arch32bit != Arch32bit {
-		t.Errorf("Arch32bit is incorrect!")
-	}
-	if arch32bit == Arch64bit {
-		t.Errorf("Arch64bit is incorrect!")
-	}
-}
 
 func TestPie(t *testing.T) {
 	Pie(nil)
