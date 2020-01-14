@@ -27,7 +27,7 @@ func Round(x, unit float64) float64 {
 	return math.Round(x/unit) * unit
 }
 
-// Near checks if 2 float64 numbers are "near" to each other.
+// Near reports if 2 float64 numbers are "near" to each other.
 // The caller is responsible to provide a sensible epsilon.
 //
 // "near" is defined as the following:
