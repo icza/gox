@@ -11,7 +11,7 @@ Reasonable to "dot-import" the package, so identifiers will be directly availabl
 		"fmt"
 		"strconv"
 
-		. "github.com/icza/gox"
+		. "github.com/icza/gox/builtinx"
 	)
 
 	func main() {
