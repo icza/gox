@@ -18,6 +18,8 @@ the package.
 complement to the standard `fmt` package.
 - [`gox/imagex/colorx`](https://github.com/icza/gox/tree/master/imagex/colorx): color utilities,
 complement to the standard `image/color` package.
+- [`gox/mathx`](https://github.com/icza/gox/tree/master/mathx): math utilities,
+complement to the standard `math` package.
 - [`gox/timex`](https://github.com/icza/gox/tree/master/timex): time and duration related calculations and utilities,
 complement to the standard `time` package.
 
