@@ -21,6 +21,8 @@ complement to the standard `image/color` package.
 complement to the standard `math` package.
 - [`mathx/randx`](https://github.com/icza/gox/tree/master/mathx/randx): random-related utilities,
 complement to the standard `math/rand` package.
+- [`netx/httpx`](https://github.com/icza/gox/tree/master/netx/httpx): HTTP utilities,
+complement to the standard `net/http` package.
 - [`osx`](https://github.com/icza/gox/tree/master/osx): operating system utilities,
 complement to the standard `os` package.
 - [`timex`](https://github.com/icza/gox/tree/master/timex): time and duration related calculations and utilities,
