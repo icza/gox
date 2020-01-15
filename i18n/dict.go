@@ -7,6 +7,9 @@ import "fmt"
 const Empty = "\xff"
 
 // Dict describes a dictionary, it holds translations of a phrase or sentence.
+//
+// Keyed composite literals should be used always to create instances,
+// where keys (indices) are the locales.
 type Dict []string
 
 // Get returns the translation for the given locale.
