@@ -4,8 +4,8 @@ import "math/rand"
 
 var randFloat64 = rand.Float64 // Mockable rand.Float64 function
 
-// RandomWeight chooses an index randomly using the listed probabilities as weights.
-// Weights must add up to 1.
+// RandomWeight chooses an index randomly using the listed (non-negative)
+// probabilities as weights. Weights must add up to 1.
 //
 // The default Rand of math/rand package is used for random data.
 //
@@ -28,20 +28,22 @@ func RandomWeight(weights ...float64) int {
 
 var randIntn = rand.Intn // Mockable rand.Intn function
 
-// RandomIntWeight chooses an index randomly using the listed relative weights.
+// RandomIntWeight chooses an index randomly using the listed non-negative
+// relative weights.
 //
 // The default Rand of math/rand package is used for random data.
 //
 // Implementation guarantees to return an integer in the range of [0..len(weights)).
 // If no weight is provided or they add up to 0, -1 is returned.
+// Behavior for negative weights is undefined.
 func RandomIntWeight(weights ...int) int {
 	sum := 0
 	for _, w := range weights {
 		sum += w
 	}
 
-	// Return early if sum is 0, we can't call Intn() with 0.
-	if sum == 0 {
+	// Return early if sum is not positive, Intn() would panic.
+	if sum <= 0 {
 		return -1
 	}
 
@@ -53,6 +55,7 @@ func RandomIntWeight(weights ...int) int {
 		}
 	}
 
-	// We may end up here if weights do not add up to 1.
-	return -1
+	// We could only end up here if weights add up to a non-positive number,
+	// but that is checked earlier (and returned early).
+	panic("unreachable")
 }
