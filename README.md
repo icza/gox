@@ -15,6 +15,7 @@ It contains constants, helpers and utilities which could have been part of Go it
 - [`builtinx`](https://github.com/icza/gox/tree/master/builtinx): functions and types which could have been builtin, reasonable to "dot-import" this package
 - [`fmtx`](https://github.com/icza/gox/tree/master/fmtx): formatting utilities,
 complement to the standard `fmt` package.
+- [`i18n`](https://github.com/icza/gox/tree/master/i18n): internationalization utilities.
 - [`imagex/colorx`](https://github.com/icza/gox/tree/master/imagex/colorx): color utilities,
 complement to the standard `image/color` package.
 - [`mathx`](https://github.com/icza/gox/tree/master/mathx): math utilities,
