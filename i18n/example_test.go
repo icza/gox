@@ -6,7 +6,7 @@ import (
 	"github.com/icza/gox/i18n"
 )
 
-// Locales
+// Define your locales
 const (
 	EN = iota
 	HU
