@@ -6,6 +6,8 @@ package builtinx
 // concatenation of a type conversion and a method call such as:
 //
 //   i := If(cond).Int(a, b)
+//
+// For details, see https://stackoverflow.com/a/59375088/1705598
 type If bool
 
 // If returns a if c is true, b otherwise.
