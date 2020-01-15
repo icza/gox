@@ -34,8 +34,5 @@ func (d Dict) Get(locale int, a ...interface{}) string {
 	return fmt.Sprintf(format, a...)
 }
 
-// Translator is a function type which when called can translate some phrase
-// or sentence into a given locale.
-//
-// It is the type of the Dict.Get method.
-type Translator func(locale string, a ...interface{}) string
+// Translator describes the type of Dict.Get method.
+type Translator func(locale int, a ...interface{}) string
