@@ -7,10 +7,12 @@ import (
 )
 
 // ClientIP returns the client's IP address for the given request.
-// It first check the X-Forwarded-For header, and if present, returns its first
+// It first checks the X-Forwarded-For header, and if present, returns its first
 // element.
 //
 // Else Request.RemoteAddr is parsed and used.
+//
+// For details, see https://stackoverflow.com/a/29236630/1705598
 func ClientIP(r *http.Request) string {
 	if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
 		if parts := strings.Split(xff, ","); len(parts) > 0 {
