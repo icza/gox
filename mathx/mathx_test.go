@@ -8,18 +8,19 @@ import (
 
 func TestAbsInt(t *testing.T) {
 	cases := []struct {
+		name   string
 		i, exp int
 	}{
-		{0, 0},
-		{1, 1},
-		{-1, 1},
-		{math.MinInt32, -math.MinInt32},
-		{math.MaxInt32, math.MaxInt32},
+		{"zero", 0, 0},
+		{"pos", 1, 1},
+		{"neg", -1, 1},
+		{"minint32", math.MinInt32, -math.MinInt32},
+		{"maxint32", math.MaxInt32, math.MaxInt32},
 	}
 
-	for i, c := range cases {
+	for _, c := range cases {
 		if got := AbsInt(c.i); got != c.exp {
-			t.Errorf("[%d] Expected: %d, got: %d", i, c.exp, c.i)
+			t.Errorf("[%s] Expected: %d, got: %d", c.name, c.exp, c.i)
 		}
 	}
 }
@@ -65,39 +66,40 @@ func ExampleRound() {
 func TestNear(t *testing.T) {
 	inf, neginf, nan := math.Inf(1), math.Inf(-1), math.NaN()
 	cases := []struct {
+		name      string
 		a, b, eps float64
 		exp       bool
 	}{
-		{1.0, 1.0, 1e-6, true},
-		{1.0, 1.001, 1e-6, false},
-		{1.0, 1.001, 1e-2, true},
+		{"normal-1", 1.0, 1.0, 1e-6, true},
+		{"normal-1", 1.0, 1.001, 1e-6, false},
+		{"normal-1", 1.0, 1.001, 1e-2, true},
 
 		// Corner cases
-		{inf, 1.001, 1e-2, false},
-		{neginf, 1.001, 1e-2, false},
-		{inf, inf, 1e-2, true},
-		{neginf, neginf, 1e-2, true},
-		{inf, neginf, 1e-2, false},
+		{"corner-case-inf", inf, 1.001, 1e-2, false},
+		{"corner-case-neginf", neginf, 1.001, 1e-2, false},
+		{"corner-case-inf-inf", inf, inf, 1e-2, true},
+		{"corner-case-neginf-neginf", neginf, neginf, 1e-2, true},
+		{"corner-case-inf-neginf", inf, neginf, 1e-2, false},
 
-		{1.0, 1.1, inf, true},
-		{1.0, inf, inf, false},
-		{inf, inf, inf, true},
-		{neginf, neginf, inf, true},
+		{"corner-case-eps-inf", 1.0, 1.1, inf, true},
+		{"corner-case-inf-eps-inf", 1.0, inf, inf, false},
+		{"corner-case-all-inf", inf, inf, inf, true},
+		{"corner-case-neginf-neginf-eps-inf", neginf, neginf, inf, true},
 
-		{1.0, nan, 1e10, false},
-		{1.0, nan, inf, false},
-		{nan, nan, 1e10, false},
-		{nan, nan, inf, false},
+		{"corner-case-nan", 1.0, nan, 1e10, false},
+		{"corner-case-nan-eps-inf", 1.0, nan, inf, false},
+		{"corner-case-nan-nan", nan, nan, 1e10, false},
+		{"corner-case-nan-nan-eps-inf", nan, nan, inf, false},
 
-		{1.0, 1.0, nan, true},
-		{1.0, 1.001, nan, false},
-		{inf, inf, nan, true},
-		{neginf, neginf, nan, true},
+		{"corner-case-eps-nan", 1.0, 1.0, nan, true},
+		{"corner-case-eps-nan-2", 1.0, 1.001, nan, false},
+		{"corner-case-inf-inf-eps-nan", inf, inf, nan, true},
+		{"corner-case-neginf-neginf-eps-nan", neginf, neginf, nan, true},
 	}
 
-	for i, c := range cases {
+	for _, c := range cases {
 		if got := Near(c.a, c.b, c.eps); c.exp != got {
-			t.Errorf("[i=%d] Expected: %v, got: %v", i, c.exp, got)
+			t.Errorf("[%s] Expected: %v, got: %v", c.name, c.exp, got)
 		}
 	}
 }

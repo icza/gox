@@ -67,7 +67,8 @@ const (
 )
 
 // FormatSize formats the given size value using the given size unit, rounding to
-// the given number of fraction digits.
+// the given number of fraction digits. Fraction digits are omitted when the
+// (resulting) unit is SizeUnitByte.
 //
 // If SizeUnitAuto is specified, the unit will be automatically selected based
 // on the size value.
