@@ -10,6 +10,10 @@ const Empty = "\xff"
 //
 // Keyed composite literals should be used always to create instances,
 // where keys (indices) are the locales.
+//
+// Empty string elements "" denote missing translations for the locale denoted
+// by the index. If you want the translation to be the empty string, you must
+// use the Empty constant as the value.
 type Dict []string
 
 // Get returns the translation for the given locale.
@@ -18,6 +22,9 @@ type Dict []string
 //
 // If arguments are provided, the translation is treated as a format string,
 // and fmt.Sprintf() is called to generate the result.
+//
+// If the translation is the Empty constant, the empty string is returned
+// without calling fmt.Sprintf() even if arguments are provided.
 func (d Dict) Get(locale int, a ...interface{}) string {
 	var format string
 	if locale < len(d) {
@@ -37,5 +44,5 @@ func (d Dict) Get(locale int, a ...interface{}) string {
 	return fmt.Sprintf(format, a...)
 }
 
-// Translator describes the type of Dict.Get method.
+// Translator is the type of the Dict.Get method.
 type Translator func(locale int, a ...interface{}) string
