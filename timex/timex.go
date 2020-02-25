@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-// Diff calculates the absolute difference between 2 time instanes in
+// Diff calculates the absolute difference between 2 time instances in
 // years, months, days, hours, minutes and seconds.
 //
 // For details, see https://stackoverflow.com/a/36531443/1705598
