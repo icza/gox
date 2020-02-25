@@ -53,6 +53,7 @@ func Diff(a, b time.Time) (year, month, day, hour, min, sec int) {
 	if month < 0 {
 		month += 12
 		year--
+		month += 12 * year
 	}
 
 	return
