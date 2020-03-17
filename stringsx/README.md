@@ -1,4 +1,4 @@
-# httpx
+# stringsx
 
 [![GoDoc](https://godoc.org/github.com/icza/gox/stringsx?status.svg)](https://godoc.org/github.com/icza/gox/stringsx)
 
