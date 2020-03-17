@@ -26,5 +26,7 @@ complement to the standard `math/rand` package.
 complement to the standard `net/http` package.
 - [`osx`](https://github.com/icza/gox/tree/master/osx): operating system utilities,
 complement to the standard `os` package.
+- [`stringsx`](https://github.com/icza/gox/tree/master/stringsx): string utilities,
+complement to the standard `strings` package.
 - [`timex`](https://github.com/icza/gox/tree/master/timex): time and duration related calculations and utilities,
 complement to the standard `time` package.
