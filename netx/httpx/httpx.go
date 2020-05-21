@@ -34,6 +34,7 @@ var uaShortener = strings.NewReplacer(
 	"~", "~~", // This is so original ~ are preserved and can be decoded losslessly.
 	"Android", "~A",
 	"Chrome/", "~c",
+	"compatible", "~C",
 	"Edge/", "~e",
 	"Firefox/", "~f",
 	"Gecko/", "~g",
@@ -55,6 +56,7 @@ var shortUADecoder = strings.NewReplacer(
 	"~~", "~",
 	"~A", "Android",
 	"~c", "Chrome/",
+	"~C", "compatible",
 	"~e", "Edge/",
 	"~f", "Firefox/",
 	"~g", "Gecko/",
