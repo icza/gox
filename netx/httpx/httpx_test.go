@@ -87,6 +87,36 @@ func TestUAShortening(t *testing.T) {
 			"Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36",
 			"~Z (~L; ~A 8.0.0; SM-G960F Build/R16NW) ~a537.36 ~G ~c62.0.3202.84 ~M ~s537.36",
 		},
+		{
+			"Googlebot 2.1",
+			"Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.92 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+			"~Z (~L; ~A 6.0.1; Nexus 5X Build/MMB29P) ~a537.36 ~G ~c80.0.3987.92 ~M ~s537.36 (~C; Googlebot/2.1; +http://www.google.com/bot.html)",
+		},
+		{
+			"AhrefsBot 6.1",
+			"Mozilla/5.0 (compatible; AhrefsBot/6.1; +http://ahrefs.com/robot/)",
+			"~Z (~C; AhrefsBot/6.1; +http://ahrefs.com/robot/)",
+		},
+		{
+			"Bytespider",
+			"Mozilla/5.0 (Linux; Android 5.0) AppleWebKit/537.36 (KHTML, like Gecko) Mobile Safari/537.36 (compatible; Bytespider; https://zhanzhang.toutiao.com/)",
+			"~Z (~L; ~A 5.0) ~a537.36 ~G ~M ~s537.36 (~C; Bytespider; https://zhanzhang.toutiao.com/)",
+		},
+		{
+			"Nimbostratus-Bot 1.3.2",
+			"Mozilla/5.0 (compatible; Nimbostratus-Bot/v1.3.2; http://cloudsystemnetworks.com)",
+			"~Z (~C; Nimbostratus-Bot/v1.3.2; http://cloudsystemnetworks.com)",
+		},
+		{
+			"YandexBot 3.0",
+			"Mozilla/5.0 (compatible; YandexBot/3.0; +http://yandex.com/bots)",
+			"~Z (~C; YandexBot/3.0; +http://yandex.com/bots)",
+		},
+		{
+			"Applebot 0.1",
+			"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/600.2.5 (KHTML, like Gecko) Version/8.0.2 Safari/600.2.5 (Applebot/0.1; +http://www.apple.com/go/applebot)",
+			"~Z (~I; Intel Mac OS X 10_10_1) ~a600.2.5 ~G ~v8.0.2 ~s600.2.5 (Applebot/0.1; +http://www.apple.com/go/applebot)",
+		},
 	}
 
 	for _, c := range cases {
