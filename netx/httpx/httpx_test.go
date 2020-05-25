@@ -117,6 +117,11 @@ func TestUAShortening(t *testing.T) {
 			"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/600.2.5 (KHTML, like Gecko) Version/8.0.2 Safari/600.2.5 (Applebot/0.1; +http://www.apple.com/go/applebot)",
 			"~Z (~I; Intel Mac OS X 10_10_1) ~a600.2.5 ~G ~v8.0.2 ~s600.2.5 (Applebot/0.1; +http://www.apple.com/go/applebot)",
 		},
+		{
+			"SemrushBot 6",
+			"compatible; SemrushBot/6~bl; +http://www.semrush.com/bot.html",
+			"~C; SemrushBot/6~~bl; +http://www.semrush.com/bot.html",
+		},
 	}
 
 	for _, c := range cases {
