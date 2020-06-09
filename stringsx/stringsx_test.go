@@ -1,6 +1,9 @@
 package stringsx
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestClean(t *testing.T) {
 	cases := []struct {
@@ -57,6 +60,42 @@ func TestLimitRunes(t *testing.T) {
 
 	for _, c := range cases {
 		if got := LimitRunes(c.s, c.n); got != c.exp {
+			t.Errorf("[%s] Expected: %s, got: %s", c.name, c.exp, got)
+		}
+	}
+}
+
+func TestSplitQuotes(t *testing.T) {
+	cases := []struct {
+		name string
+		s    string
+		exp  []string
+	}{
+		{"empty", "", []string{""}},
+		{"part-1", "a", []string{"a"}},
+		{"part-2", "ab", []string{"ab"}},
+		{"comma", ",", []string{"", ""}},
+		{"commas", ",,", []string{"", "", ""}},
+		{"normal-1", "a,b", []string{"a", "b"}},
+		{"normal-2", "a,", []string{"a", ""}},
+		{"normal-3", ",a", []string{"", "a"}},
+		{"normal-3", ",a", []string{"", "a"}},
+		{"normal-4", "a,b,c", []string{"a", "b", "c"}},
+		{"normal-5", "a, b, c , ", []string{"a", " b", " c ", " "}},
+		{"quoted-part-1", `"`, []string{`"`}},
+		{"quoted-part-2", `""`, []string{`""`}},
+		{"quoted-part-3", `"a"`, []string{`"a"`}},
+		{"quoted-part-4", `"a,b"`, []string{`"a,b"`}},
+		{"quoted-part-4", `",`, []string{`",`}},
+		{"quoted-normal-1", `a,"b"`, []string{"a", `"b"`}},
+		{"quoted-normal-2", `a,"b,c"`, []string{"a", `"b,c"`}},
+		{"quoted-normal-3", `a,"b"",c"`, []string{"a", `"b"",c"`}},
+		{"quoted-normal-4", `a,"b,c",d`, []string{"a", `"b,c"`, "d"}},
+		{"quoted-normal-4", `a,"b,c","d"`, []string{"a", `"b,c"`, `"d"`}},
+	}
+
+	for _, c := range cases {
+		if got := SplitQuotes(c.s, ',', '"'); !reflect.DeepEqual(got, c.exp) {
 			t.Errorf("[%s] Expected: %s, got: %s", c.name, c.exp, got)
 		}
 	}

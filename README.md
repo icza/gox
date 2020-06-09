@@ -5,7 +5,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/icza/gox)](https://goreportcard.com/report/github.com/icza/gox)
 [![codecov](https://codecov.io/gh/icza/gox/branch/master/graph/badge.svg)](https://codecov.io/gh/icza/gox)
 
-_This module is in alpha phase._
+_This module is in beta phase._
 
 The `gox` module is a minimalistic, lightweigt extension to Go.
 It contains constants, helpers and utilities which could have been part of Go itself.
