@@ -35,6 +35,10 @@ func checkSame(t *testing.T, s1, s2 string, shouldBeSame bool) {
 }
 
 func TestPool(t *testing.T) {
+	// // Test the compiler
+	checkSame(t, "abc", "abc", true)
+	checkSame(t, "", "", true)
+
 	x := int64(827364536372)
 
 	s1 := fmt.Sprint(x)
@@ -50,4 +54,8 @@ func TestPool(t *testing.T) {
 	s2i := pool.Interned(s2)
 	checkSame(t, s2, s2i, false) // This will be false: pool will return s1
 	checkSame(t, s1, s2i, true)
+
+	se := ""
+	sei := pool.Interned(se)
+	checkSame(t, se, sei, true)
 }
