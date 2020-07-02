@@ -1,11 +1,11 @@
-package builtinx_test
+package gox_test
 
 import (
 	"fmt"
 	"strconv"
 	"time"
 
-	. "github.com/icza/gox/builtinx"
+	. "github.com/icza/gox/gox"
 )
 
 func Example() {

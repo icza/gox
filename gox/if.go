@@ -1,6 +1,6 @@
 // This file contains helpers to provide a "ternary operator like" functionality.
 
-package builtinx
+package gox
 
 // If is a helper type to form expressive ternary expressions being the
 // concatenation of a type conversion and a method call such as:

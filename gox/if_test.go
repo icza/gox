@@ -1,4 +1,4 @@
-package builtinx
+package gox
 
 import (
 	"reflect"

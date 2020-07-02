@@ -1,8 +1,8 @@
-# builtinx
+# gox
 
-[![GoDoc](https://godoc.org/github.com/icza/gox/builtinx?status.svg)](https://godoc.org/github.com/icza/gox/builtinx)
+[![GoDoc](https://godoc.org/github.com/icza/gox/gox?status.svg)](https://godoc.org/github.com/icza/gox/gox)
 
-Package `builtinx` contains functions and types which could have been builtin, which
+Package `gox` contains functions and types which could have been builtin, which
 could have been part of Go itself.
 
 Reasonable to "dot-import" the package, so identifiers will be directly available:
@@ -11,7 +11,7 @@ Reasonable to "dot-import" the package, so identifiers will be directly availabl
 		"fmt"
 		"strconv"
 
-		. "github.com/icza/gox/builtinx"
+		. "github.com/icza/gox/gox"
 	)
 
 	func main() {
