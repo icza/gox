@@ -36,7 +36,7 @@ func LimitRunes(s string, n int) string {
 			return s[:i]
 		}
 	}
-	// s has n or more runes
+	// s has n or less runes
 	return s
 }
 
