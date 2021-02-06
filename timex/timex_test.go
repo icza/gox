@@ -167,3 +167,62 @@ func TestParseWeekday(t *testing.T) {
 		}
 	}
 }
+
+// ExampleNextWeekday shows how to use the NextWeekday() function.
+func ExampleNextWeekday() {
+	// Given the date today is Tuesday, Jan 26th, 2021
+	now := time.Date(2021, time.January, 26, 11, 0, 0, 0, time.UTC)
+
+	// Get the timestamp of next Monday at 12pm UTC
+	t := NextWeekday(now, "Monday", 12, time.UTC)
+
+	fmt.Println(t)
+
+	// Output:
+	// 2021-02-01 12:00:00 +0000 UTC
+}
+
+func Test_NextWeekday(t *testing.T) {
+	t.Parallel()
+
+	// Testing against Wednesday, Jan 13th, 2021 12:00 UTC
+	now := time.Date(2021, time.January, 13, 12, 0, 0, 0, time.UTC)
+
+	testCases := []struct {
+		name     string
+		weekday  string
+		hour     int
+		expected time.Time
+		loc      *time.Location
+	}{
+		{"next Friday", "Friday", 12, time.Date(2021, time.January, 15, 12, 0, 0, 0, time.UTC), nil},
+		{"next Saturday", "Saturday", 15, time.Date(2021, time.January, 16, 15, 0, 0, 0, time.UTC), nil},
+		{"next Monday", "Monday", 20, time.Date(2021, time.January, 18, 20, 0, 0, 0, time.UTC), nil},
+		{"next Tuesday", "Tuesday", 9, time.Date(2021, time.January, 19, 9, 0, 0, 0, time.UTC), nil},
+		{"next Tuesday", "Tuesday", 9, time.Date(2021, time.January, 19, 9, 0, 0, 0, time.UTC), time.UTC},
+		{"next Wednesday", "Wednesday", 9, time.Date(2021, time.January, 20, 9, 0, 0, 0, time.UTC), nil},
+	}
+
+	for _, tt := range testCases {
+		t.Run(tt.name, func(t *testing.T) {
+			got := NextWeekday(now, tt.weekday, tt.hour, tt.loc)
+			if tt.expected != got {
+				t.Errorf("[%s] Expected: %v, got: %v", tt.name, tt.expected, got)
+			}
+		})
+	}
+
+	// Verify the new date is in the new year
+	testName := "new year next Monday"
+	t.Run(testName, func(t *testing.T) {
+		// Wednesday, December 30th, 2020 12:00 UTC
+		now := time.Date(2020, time.December, 30, 12, 0, 0, 0, time.UTC)
+
+		got := NextWeekday(now, "Monday", 9, time.UTC)
+		expected := time.Date(2021, time.January, 4, 9, 0, 0, 0, time.UTC)
+
+		if expected != got {
+			t.Errorf("[%s] Expected: %v, got: %v", testName, expected, got)
+		}
+	})
+}
