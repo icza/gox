@@ -135,3 +135,39 @@ func ParseWeekday(s string) (time.Weekday, error) {
 
 	return time.Sunday, fmt.Errorf("invalid weekday '%s'", s)
 }
+
+// NextWeekday calculates the date and time of the immediate next occurrance
+// of the desired weekday given the provided timestamp.
+//
+// Location defaults to time.UTC if nil.
+func NextWeekday(t time.Time, weekday string, hour int, loc *time.Location) time.Time {
+	if loc == nil {
+		loc = time.UTC
+	}
+
+	// Convert weekday to numeric representation
+	wd, _ := ParseWeekday(weekday)
+	weekdayNumber := int(wd)
+
+	// Get weekday of current timestamp as numeric representation
+	currentWeekdayNumber := int(t.Weekday())
+
+	var diff int
+
+	switch {
+	case currentWeekdayNumber < weekdayNumber:
+		diff = weekdayNumber - currentWeekdayNumber
+	case currentWeekdayNumber > weekdayNumber:
+		diff = 7 - (currentWeekdayNumber - weekdayNumber)
+	case currentWeekdayNumber == weekdayNumber:
+		diff = 7
+	}
+
+	timestamp := t.AddDate(0, 0, diff)
+
+	// Set the hour on that date
+	year, month, day := timestamp.Date()
+	timestamp = time.Date(year, month, day, hour, 0, 0, 0, loc)
+
+	return timestamp
+}
