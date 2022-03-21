@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"math"
 	"testing"
+
+	"github.com/icza/gox/gox"
+	"github.com/icza/gox/osx"
 )
 
 func TestAbsInt(t *testing.T) {
@@ -14,8 +17,9 @@ func TestAbsInt(t *testing.T) {
 		{"zero", 0, 0},
 		{"pos", 1, 1},
 		{"neg", -1, 1},
-		{"minint32", math.MinInt32, -math.MinInt32},
 		{"maxint32", math.MaxInt32, math.MaxInt32},
+		// On 32-bit arch, -math.MinInt32 overflows and this test fails
+		{"minint32", math.MinInt32, gox.If(osx.Arch32bit).Int(math.MinInt32, -math.MinInt32)},
 	}
 
 	for _, c := range cases {
