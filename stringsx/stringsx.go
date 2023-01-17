@@ -24,10 +24,15 @@ func Clean(s string) string {
 // If s has less runes than n, s is returned.
 //
 // Each byte of invalid UTF-8 sequences count as one when counting the limit, e.g.
-//   LimitRunes("\xff\xffab", 3) // returns "\xff\xffa"
+//
+//	LimitRunes("\xff\xffab", 3) // returns "\xff\xffa"
 func LimitRunes(s string, n int) string {
 	if n <= 0 || s == "" {
 		return ""
+	}
+	// Quick check: if byte-length is not greater than n, number of runes will also be not greater:
+	if len(s) <= n {
+		return s
 	}
 
 	for i := range s {
