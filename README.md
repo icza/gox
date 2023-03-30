@@ -1,7 +1,7 @@
 # gox
 
 ![Build Status](https://github.com/icza/gox/actions/workflows/go.yml/badge.svg)
-[![GoDoc](https://godoc.org/github.com/icza/gox?status.svg)](https://godoc.org/github.com/icza/gox)
+[![Go Reference](https://pkg.go.dev/badge/github.com/icza/gox.svg)](https://pkg.go.dev/github.com/icza/gox)
 [![Go Report Card](https://goreportcard.com/badge/github.com/icza/gox)](https://goreportcard.com/report/github.com/icza/gox)
 [![codecov](https://codecov.io/gh/icza/gox/branch/master/graph/badge.svg)](https://codecov.io/gh/icza/gox)
 
