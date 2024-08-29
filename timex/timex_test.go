@@ -90,13 +90,13 @@ func ExampleWeekStartTime() {
 	}
 
 	// Output:
-	// Week of 2018-12-31 11:00:00 +0000 UTC starts on: 2018-12-31 11:00:00 +0000 UTC
-	// Week of 2019-01-01 11:00:00 +0000 UTC starts on: 2018-12-31 11:00:00 +0000 UTC
-	// Week of 2024-08-25 11:00:00 +0000 UTC starts on: 2024-08-19 11:00:00 +0000 UTC
-	// Week of 2024-08-26 11:00:00 +0000 UTC starts on: 2024-08-26 11:00:00 +0000 UTC
-	// Week of 2024-08-29 11:00:00 +0000 UTC starts on: 2024-08-26 11:00:00 +0000 UTC
-	// Week of 2024-09-01 11:00:00 +0000 UTC starts on: 2024-08-26 11:00:00 +0000 UTC
-	// Week of 2024-09-02 11:00:00 +0000 UTC starts on: 2024-09-02 11:00:00 +0000 UTC
+	// Week of 2018-12-31 11:00:00 +0000 UTC starts on: 2018-12-31 00:00:00 +0000 UTC
+	// Week of 2019-01-01 11:00:00 +0000 UTC starts on: 2018-12-31 00:00:00 +0000 UTC
+	// Week of 2024-08-25 11:00:00 +0000 UTC starts on: 2024-08-19 00:00:00 +0000 UTC
+	// Week of 2024-08-26 11:00:00 +0000 UTC starts on: 2024-08-26 00:00:00 +0000 UTC
+	// Week of 2024-08-29 11:00:00 +0000 UTC starts on: 2024-08-26 00:00:00 +0000 UTC
+	// Week of 2024-09-01 11:00:00 +0000 UTC starts on: 2024-08-26 00:00:00 +0000 UTC
+	// Week of 2024-09-02 11:00:00 +0000 UTC starts on: 2024-09-02 00:00:00 +0000 UTC
 }
 
 // ExampleWeekStart shows how to use the WeekStart() function.

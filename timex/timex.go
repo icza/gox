@@ -65,7 +65,9 @@ func Diff(a, b time.Time) (year, month, day, hour, min, sec int) {
 // This function only returns the given week's first day (Monday), because the
 // last day of the week is always its first day + 6 days.
 func WeekStartTime(t time.Time) time.Time {
-	t = t.UTC()
+	year, month, day := t.UTC().Date()
+	t = time.Date(year, month, day, 0, 0, 0, 0, time.UTC)
+
 	if wd := t.Weekday(); wd == time.Sunday {
 		return t.AddDate(0, 0, -6)
 	} else {
@@ -92,7 +94,12 @@ func WeekStart(year, week int) time.Time {
 	t := time.Date(year, 7, 1, 0, 0, 0, 0, time.UTC)
 
 	// Roll back to Monday:
-	t = WeekStartTime(t)
+	// (NOTE: do not call WeekStartTime() for performance reasons: t already has 0 time)
+	if wd := t.Weekday(); wd == time.Sunday {
+		t = t.AddDate(0, 0, -6)
+	} else {
+		t = t.AddDate(0, 0, -int(wd)+1)
+	}
 
 	// Difference in weeks:
 	_, w := t.ISOWeek()
