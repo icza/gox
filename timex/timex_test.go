@@ -83,6 +83,8 @@ func ExampleWeekStartTime() {
 		{time.Date(2024, 8, 29, 11, 0, 0, 0, time.UTC)},
 		{time.Date(2024, 9, 1, 11, 0, 0, 0, time.UTC)},
 		{time.Date(2024, 9, 2, 11, 0, 0, 0, time.UTC)},
+		{time.Date(2024, 9, 1, 11, 0, 0, 0, time.FixedZone("F1H", 3600))},
+		{time.Date(2024, 9, 2, 11, 0, 0, 0, time.FixedZone("F-1H", -3600))},
 	}
 	for _, c := range inputs {
 		fmt.Printf("Week of %v starts on: %v\n",
@@ -97,6 +99,8 @@ func ExampleWeekStartTime() {
 	// Week of 2024-08-29 11:00:00 +0000 UTC starts on: 2024-08-26 00:00:00 +0000 UTC
 	// Week of 2024-09-01 11:00:00 +0000 UTC starts on: 2024-08-26 00:00:00 +0000 UTC
 	// Week of 2024-09-02 11:00:00 +0000 UTC starts on: 2024-09-02 00:00:00 +0000 UTC
+	// Week of 2024-09-01 11:00:00 +0100 F1H starts on: 2024-08-26 00:00:00 +0000 UTC
+	// Week of 2024-09-02 11:00:00 -0100 F-1H starts on: 2024-09-02 00:00:00 +0000 UTC
 }
 
 // ExampleWeekStart shows how to use the WeekStart() function.
