@@ -73,6 +73,32 @@ func TestDiff(t *testing.T) {
 	}
 }
 
+// ExampleWeekStartTime shows how to use the WeekStartTime() function.
+func ExampleWeekStartTime() {
+	inputs := []struct{ t time.Time }{
+		{time.Date(2018, 12, 31, 11, 0, 0, 0, time.UTC)},
+		{time.Date(2019, 1, 1, 11, 0, 0, 0, time.UTC)},
+		{time.Date(2024, 8, 25, 11, 0, 0, 0, time.UTC)},
+		{time.Date(2024, 8, 26, 11, 0, 0, 0, time.UTC)},
+		{time.Date(2024, 8, 29, 11, 0, 0, 0, time.UTC)},
+		{time.Date(2024, 9, 1, 11, 0, 0, 0, time.UTC)},
+		{time.Date(2024, 9, 2, 11, 0, 0, 0, time.UTC)},
+	}
+	for _, c := range inputs {
+		fmt.Printf("Week of %v starts on: %v\n",
+			c.t, WeekStartTime(c.t))
+	}
+
+	// Output:
+	// Week of 2018-12-31 11:00:00 +0000 UTC starts on: 2018-12-31 11:00:00 +0000 UTC
+	// Week of 2019-01-01 11:00:00 +0000 UTC starts on: 2018-12-31 11:00:00 +0000 UTC
+	// Week of 2024-08-25 11:00:00 +0000 UTC starts on: 2024-08-19 11:00:00 +0000 UTC
+	// Week of 2024-08-26 11:00:00 +0000 UTC starts on: 2024-08-26 11:00:00 +0000 UTC
+	// Week of 2024-08-29 11:00:00 +0000 UTC starts on: 2024-08-26 11:00:00 +0000 UTC
+	// Week of 2024-09-01 11:00:00 +0000 UTC starts on: 2024-08-26 11:00:00 +0000 UTC
+	// Week of 2024-09-02 11:00:00 +0000 UTC starts on: 2024-09-02 11:00:00 +0000 UTC
+}
+
 // ExampleWeekStart shows how to use the WeekStart() function.
 func ExampleWeekStart() {
 	inputs := []struct{ year, week int }{
