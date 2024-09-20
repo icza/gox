@@ -12,11 +12,11 @@ var errInvalidFormat = errors.New("invalid format")
 //
 // For details, see https://stackoverflow.com/a/54200713/1705598
 func ParseHexColor(s string) (c color.RGBA, err error) {
-	c.A = 0xff
-
 	if len(s) == 0 || s[0] != '#' {
 		return c, errInvalidFormat
 	}
+
+	c.A = 0xff
 
 	hexToByte := func(b byte) byte {
 		switch {
