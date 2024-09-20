@@ -28,7 +28,7 @@ func ExampleParseHexColor() {
 	// #000233 = {  0   2  51 255}, <nil>
 	// #023    = {  0  34  51 255}, <nil>
 	// #bAC    = {187 170 204 255}, <nil>
-	// invalid = {  0   0   0 255}, invalid format
+	// invalid = {  0   0   0   0}, invalid format
 	// #abcd   = {  0   0   0 255}, invalid format
 	// #-12    = {  0  17  34 255}, invalid format
 }
