@@ -2,6 +2,7 @@ package colorx
 
 import (
 	"fmt"
+	"testing"
 )
 
 // ExampleParseHexColor shows how to use the ParseHexColor() function.
@@ -30,4 +31,11 @@ func ExampleParseHexColor() {
 	// invalid = {  0   0   0 255}, invalid format
 	// #abcd   = {  0   0   0 255}, invalid format
 	// #-12    = {  0  17  34 255}, invalid format
+}
+
+func TestParseHexColor(t *testing.T) {
+	_, err := ParseHexColor("")
+	if err == nil {
+		t.Errorf("empty string should return error")
+	}
 }
