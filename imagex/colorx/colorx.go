@@ -14,7 +14,7 @@ var errInvalidFormat = errors.New("invalid format")
 func ParseHexColor(s string) (c color.RGBA, err error) {
 	c.A = 0xff
 
-	if s[0] != '#' {
+	if len(s) == 0 || s[0] != '#' {
 		return c, errInvalidFormat
 	}
 
