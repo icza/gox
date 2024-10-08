@@ -142,6 +142,7 @@ func TestGetURL(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "testoutput")
 	}))
+	defer srv.Close()
 
 	cases := []struct {
 		name    string
