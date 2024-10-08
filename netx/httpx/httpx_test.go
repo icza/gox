@@ -1,7 +1,11 @@
 package httpx
 
 import (
+	"bytes"
+	"context"
+	"fmt"
 	"net/http"
+	"net/http/httptest"
 	"testing"
 )
 
@@ -130,6 +134,44 @@ func TestUAShortening(t *testing.T) {
 		}
 		if got := DecodeShortUA(c.shortUA); got != c.ua {
 			t.Errorf("[%s] Expected: %s, got: %s", c.name, c.ua, got)
+		}
+	}
+}
+
+func TestGetURL(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "testoutput")
+	}))
+
+	cases := []struct {
+		name    string
+		url     string
+		expData []byte
+		expErr  bool
+	}{
+		{
+			name:   "invalid URL",
+			url:    "invalidURL",
+			expErr: true,
+		},
+		{
+			name:    "invalid URL",
+			url:     srv.URL,
+			expData: []byte("testoutput"),
+			expErr:  false,
+		},
+	}
+
+	for _, c := range cases {
+		data, err := GetURL(context.Background(), c.url)
+		gotErr := err != nil
+
+		if gotErr != c.expErr {
+			t.Errorf("[%s] Expected error: %v, got error: %v, error: %v", c.name, c.expErr, gotErr, err)
+			continue
+		}
+		if !bytes.Equal(data, c.expData) {
+			t.Errorf("[%s] Expected: %s, got: %s", c.name, c.expData, data)
 		}
 	}
 }
