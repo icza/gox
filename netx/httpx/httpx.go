@@ -79,7 +79,7 @@ var shortUADecoder = strings.NewReplacer(
 // ShortenUserAgent can be used to simplify, shorten user agent strings.
 // It replaces most frequent (and less informative) parts with short sequences.
 // The transformation is a bijection, the short form can be decoded back
-// into the original user agent string, see DecodeShortUA().
+// into the original user agent string, see [DecodeShortUA].
 //
 // Examples:
 //
@@ -110,7 +110,7 @@ func ShortenUserAgent(ua string) string {
 }
 
 // DecodeShortUA decodes the given shortened user agent string into its original form.
-// The shortUA input should be the output of ShortenUserAgent().
+// The shortUA input should be the output of [ShortenUserAgent].
 func DecodeShortUA(shortUA string) string {
 	return shortUADecoder.Replace(shortUA)
 }
