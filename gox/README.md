@@ -1,6 +1,6 @@
 # gox
 
-[![GoDoc](https://godoc.org/github.com/icza/gox/gox?status.svg)](https://godoc.org/github.com/icza/gox/gox)
+[![GoDoc](https://pkg.go.dev/badge/github.com/icza/gox/gox)](https://pkg.go.dev/github.com/icza/gox/gox)
 
 Package `gox` contains functions and types which could have been builtin, which
 could have been part of Go itself.

@@ -1,6 +1,6 @@
 # i18n
 
-[![GoDoc](https://godoc.org/github.com/icza/gox/i18n?status.svg)](https://godoc.org/github.com/icza/gox/i18n)
+[![GoDoc](https://pkg.go.dev/badge/github.com/icza/gox/i18n)](https://pkg.go.dev/github.com/icza/gox/i18n)
 
 Package `i18n` contains internationalization and localization utilities.
 
