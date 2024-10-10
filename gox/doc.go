@@ -6,6 +6,5 @@ Most of the functions are eligible for inlining.
 
 Reasonable to "dot-import" the package so identifiers will be directly available,
 see the package example.
-
 */
 package gox

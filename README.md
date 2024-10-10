@@ -3,7 +3,6 @@
 ![Build Status](https://github.com/icza/gox/actions/workflows/go.yml/badge.svg)
 [![GoDoc](https://pkg.go.dev/badge/github.com/icza/gox)](https://pkg.go.dev/github.com/icza/gox)
 [![Go Report Card](https://goreportcard.com/badge/github.com/icza/gox)](https://goreportcard.com/report/github.com/icza/gox)
-[![codecov](https://codecov.io/gh/icza/gox/branch/main/graph/badge.svg)](https://codecov.io/gh/icza/gox)
 
 The `gox` module is a minimalistic, lightweigt extension to Go.
 It contains constants, helpers and utilities which could have been part of Go itself.
