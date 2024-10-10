@@ -19,7 +19,7 @@ func TestAbsInt(t *testing.T) {
 		{"neg", -1, 1},
 		{"maxint32", math.MaxInt32, math.MaxInt32},
 		// On 32-bit arch, -math.MinInt32 overflows and this test fails
-		{"minint32", math.MinInt32, gox.If(osx.Arch32bit).Int(math.MinInt32, -math.MinInt32)},
+		{"minint32", math.MinInt32, gox.If(osx.Arch32bit, math.MinInt32, -math.MinInt32)},
 	}
 
 	for _, c := range cases {
