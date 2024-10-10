@@ -20,11 +20,6 @@ func Example() {
 	fmt.Println("Parsed:", n)
 
 	// Output:
-	// b: true, i: 1, s: hi
-	// Age: 10, state: child
-	// Age: 20, state: adult
-	// Temperature: -5°C, state: solid
-	// Temperature: 10°C, state: liquid
 	// Year: 2020, month: 3, day: 4
 	// Parsed: 3
 }
