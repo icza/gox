@@ -2,6 +2,10 @@
 
 package gox
 
+import (
+	"fmt"
+)
+
 // If returns vtrue if cond is true, vfalse otherwise.
 //
 // Useful to avoid an if statement when initializing variables, for example:
@@ -128,6 +132,50 @@ func Deref[T any](p *T, def ...T) (result T) {
 	if len(def) > 0 {
 		return def[0]
 	}
+	return
+}
+
+// Protect executes f but protects against panics.
+// If a panic occurs during the execution of f, an error will be returned.
+// If an error was passed to panic, that error will be wrapped in the returned error.
+func Protect(f func()) (err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			switch v := r.(type) {
+			case error:
+				err = fmt.Errorf("recovered value: %w", v)
+			default:
+				err = fmt.Errorf("recovered value: %v", r)
+			}
+		}
+	}()
+
+	f()
+	return
+}
+
+// Retry calls f and returns its results if it returns a nil error.
+// Else retries calling f up to maxRetries times, and returns its results on the first time nil error is returned.
+// If f returns non-nil error even after maxRetries calls, the final results are returned.
+//
+// If retryCallback is not nil, it is called before retrying which can be used:
+//   - for logging purposes
+//   - to delay the next call of f (e.g. by sleeping inside retryCallback)
+//   - or to abort further retries by returning true
+func Retry[T any](f func() (T, error), maxRetries int, retryCallback func(retry int, lastErr error) (abort bool)) (v T, err error) {
+	for retry := 0; retry <= maxRetries; retry++ {
+		if retry > 0 && retryCallback != nil {
+			if retryCallback(retry, err) {
+				break
+			}
+		}
+
+		v, err = f()
+		if err == nil {
+			break
+		}
+	}
+
 	return
 }
 
