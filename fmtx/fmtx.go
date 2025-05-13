@@ -31,14 +31,14 @@ func FormatInt(n int64, groupSize int, grouping byte) string {
 		in, out[0] = in[1:], '-'
 	}
 
-	for i, j, k := len(in)-1, len(out)-1, 0; ; i, j = i-1, j-1 {
-		out[j] = in[i]
-		if i == 0 {
+	for inPos, outPos, inGroupPos := len(in)-1, len(out)-1, 0; ; inPos, outPos = inPos-1, outPos-1 {
+		out[outPos] = in[inPos]
+		if inPos == 0 {
 			return string(out)
 		}
-		if k++; k == groupSize {
-			j, k = j-1, 0
-			out[j] = grouping
+		if inGroupPos++; inGroupPos == groupSize {
+			outPos, inGroupPos = outPos-1, 0
+			out[outPos] = grouping
 		}
 	}
 }
