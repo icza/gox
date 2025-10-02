@@ -124,7 +124,7 @@ func FormatSize(size int64, unit SizeUnit, fractionDigits int) string {
 // in your code (in how you call fmt.Sprintf()), so you should not overuse this.
 //
 // For details, see https://stackoverflow.com/a/59696492/1705598
-func CondSprintf(format string, v ...interface{}) string {
+func CondSprintf(format string, v ...any) string {
 	v = append(v, "")
 	format += fmt.Sprint("%[", len(v), "]s")
 	return fmt.Sprintf(format, v...)

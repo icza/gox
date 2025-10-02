@@ -205,6 +205,6 @@ func Pie(err error) {
 //	    Wrap(time.Now().Date())...)
 //
 // For details, see https://stackoverflow.com/a/52654950/1705598
-func Wrap(vs ...interface{}) []interface{} {
+func Wrap(vs ...any) []any {
 	return vs
 }

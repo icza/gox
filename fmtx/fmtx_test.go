@@ -161,17 +161,17 @@ func TestCondSprintf(t *testing.T) {
 	cases := []struct {
 		name   string
 		format string
-		args   []interface{}
+		args   []any
 		exp    string
 	}{
 		{"empty", "", nil, ""},
 		{"no-args", "Foo", nil, "Foo"},
-		{"1arg", "%s", []interface{}{"bar"}, "bar"},
-		{"1arg-2", "Foo%s", []interface{}{"bar"}, "Foobar"},
-		{"1-extra", "Foo%s", []interface{}{"bar", "extra"}, "Foobar"},
-		{"no-verb-1-extra", "Foo", []interface{}{"bar"}, "Foo"},
-		{"explicit-arg-indices", "foo%s%[3]s", []interface{}{"bar", "baz", "1"}, "foobar1"},
-		{"explicit-arg-indices-star-1-extra", "foo%[2]*d=%[1]d+%d", []interface{}{2, 3, 5, 9, "x"}, "foo  5=2+3"},
+		{"1arg", "%s", []any{"bar"}, "bar"},
+		{"1arg-2", "Foo%s", []any{"bar"}, "Foobar"},
+		{"1-extra", "Foo%s", []any{"bar", "extra"}, "Foobar"},
+		{"no-verb-1-extra", "Foo", []any{"bar"}, "Foo"},
+		{"explicit-arg-indices", "foo%s%[3]s", []any{"bar", "baz", "1"}, "foobar1"},
+		{"explicit-arg-indices-star-1-extra", "foo%[2]*d=%[1]d+%d", []any{2, 3, 5, 9, "x"}, "foo  5=2+3"},
 	}
 
 	for _, c := range cases {

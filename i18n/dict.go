@@ -25,7 +25,7 @@ type Dict []string
 //
 // If the translation is the [Empty] constant, the empty string is returned
 // without calling fmt.Sprintf() even if arguments are provided.
-func (d Dict) Get(locale int, a ...interface{}) string {
+func (d Dict) Get(locale int, a ...any) string {
 	var format string
 	if locale < len(d) {
 		format = d[locale]
@@ -45,4 +45,4 @@ func (d Dict) Get(locale int, a ...interface{}) string {
 }
 
 // Translator is the type of the [Dict.Get] method.
-type Translator func(locale int, a ...interface{}) string
+type Translator func(locale int, a ...any) string

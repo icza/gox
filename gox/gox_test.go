@@ -209,11 +209,11 @@ func TestDeref(t *testing.T) {
 		},
 		{
 			"*int default",
-			2, Deref[int](nil, 2),
+			2, Deref(nil, 2),
 		},
 		{
 			"*int not needing default",
-			1, Deref[int](Ptr(1), 2),
+			1, Deref(Ptr(1), 2),
 		},
 		{
 			"*string",
@@ -225,11 +225,11 @@ func TestDeref(t *testing.T) {
 		},
 		{
 			"*string default",
-			"2", Deref[string](nil, "2"),
+			"2", Deref(nil, "2"),
 		},
 		{
 			"*string not needing default default",
-			"1", Deref[string](Ptr("1"), "2"),
+			"1", Deref(Ptr("1"), "2"),
 		},
 	}
 
@@ -271,13 +271,13 @@ func ExampleWrap() {
 func TestWrap(t *testing.T) {
 	cases := []struct {
 		name string
-		in   []interface{}
-		out  []interface{}
+		in   []any
+		out  []any
 	}{
 		{"nil", nil, nil},
-		{"empty", []interface{}{}, []interface{}{}},
-		{"one", []interface{}{1}, []interface{}{1}},
-		{"two", []interface{}{byte(1), "two"}, []interface{}{byte(1), "two"}},
+		{"empty", []any{}, []any{}},
+		{"one", []any{1}, []any{1}},
+		{"two", []any{byte(1), "two"}, []any{byte(1), "two"}},
 	}
 
 	for _, c := range cases {
