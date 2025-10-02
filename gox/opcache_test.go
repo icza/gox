@@ -2,6 +2,8 @@ package gox
 
 import (
 	"errors"
+	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 )
@@ -147,4 +149,50 @@ func TestOpCacheError(t *testing.T) {
 			t.Errorf("[%s] Expected (%v, %v), got (%v, %v)", c.name, c.result, c.resultErr, result, err)
 		}
 	}
+}
+
+func TestOpCacheExecOpOnce(t *testing.T) {
+	expiration := 10 * time.Millisecond
+
+	cfg := OpCacheConfig{
+		ResultExpiration:      expiration,
+		ResultGraceExpiration: expiration,
+	}
+
+	var counter int64
+	operation := func() (out int, err error) {
+		time.Sleep(expiration / 2)
+		return int(atomic.AddInt64(&counter, 1)), nil
+	}
+
+	opc := NewOpCache[string, int](cfg)
+
+	wg := &sync.WaitGroup{}
+	for i := 0; i < 5; i++ { // 5 concurrent OpCache.Get() calls
+		i := i
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			got, _ := opc.Get("1", operation)
+			if exp := 1; got != exp {
+				t.Errorf("[%d] Expected: %v, got: %v", i, exp, got)
+			}
+		}()
+	}
+	wg.Wait()
+
+	time.Sleep(cfg.ResultExpiration + cfg.ResultGraceExpiration)
+
+	for i := 0; i < 5; i++ { // 5 concurrent OpCache.Get() calls
+		i := i
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			got, _ := opc.Get("1", operation)
+			if exp := 2; got != exp {
+				t.Errorf("[%d] Expected: %v, got: %v", i, exp, got)
+			}
+		}()
+	}
+	wg.Wait()
 }

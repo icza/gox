@@ -1,6 +1,7 @@
 package gox
 
 import (
+	"errors"
 	"sync"
 	"time"
 )
@@ -49,7 +50,7 @@ type OpCacheConfig struct {
 // If an operation has multiple results beside the error, they must be wrapped in a composite type
 // (like a struct or slice).
 //
-// If multiple input arguments are available (for multiple operation execution),
+// If multiple input arguments are available (for multiple operation executions),
 // operations can often be executed more efficiently if all inputs are handed as a batch
 // than executing the operation for each input argument individually.
 // A tipical example is loading records by ID from a database: running a query with a condition like "id=?"
@@ -62,13 +63,19 @@ type OpCache[K comparable, T any] struct {
 
 	keyResultsMu sync.RWMutex
 	keyResults   map[K]*opResult[T]
+
+	// Using a simple Mutex (instead of RWMutex) for this one, as the majority of cases will not be a concurrent Get() with same key.
+	// Code is simpler and faster for the majority of cases (for the very rare it's still correct but may be slower a bit).
+	keyFirstExecOpOncesMu sync.Mutex
+	keyFirstExecOpOnces   map[K]*sync.Once
 }
 
 // NewOpCache creates a new OpCache.
 func NewOpCache[K comparable, T any](cfg OpCacheConfig) *OpCache[K, T] {
 	opCache := &OpCache[K, T]{
-		cfg:        cfg,
-		keyResults: map[K]*opResult[T]{},
+		cfg:                 cfg,
+		keyResults:          map[K]*opResult[T]{},
+		keyFirstExecOpOnces: map[K]*sync.Once{},
 	}
 
 	if cfg.AutoEvictPeriodMinutes >= 0 {
@@ -107,6 +114,8 @@ func (oc *OpCache[K, T]) Evict() {
 	}
 }
 
+var ErrExecOpFailedAndErrDiscarded = errors.New("exec op failed and error discarded")
+
 // Get gets the result of an operation.
 //
 // If the result is cached and valid, it is returned immediately.
@@ -120,6 +129,12 @@ func (oc *OpCache[K, T]) Evict() {
 // Else result is either not cached or we're past even the grace period:
 // execOp() is executed, the function waits for its return values, the result is cached,
 // and then the fresh result is returned.
+// Care is also taken to only call execOp() once even if concurrent Get calls arrive (for the same key)
+// before execOp() returns.
+// Such concurrent Get calls will also wait for the ongoing execOp()'s return.
+// If the ongoing execOp() returns a discardable error (see [OpCacheConfig.ErrorExpiration]), it is
+// returned by the Get() call that ended up calling execOp(), and other concurrent Get calls will return
+// ErrExecOpFailedAndErrDiscarded. (If the error is cachable, all concurrent Get calls will return that.)
 func (oc *OpCache[K, T]) Get(
 	key K,
 	execOp func() (result T, err error),
@@ -153,8 +168,42 @@ func (oc *OpCache[K, T]) Get(
 	}
 
 	if !cachedResult.graceValid() {
-		// Not valid and not even within grace period: query, cache and return:
-		return execOpAndCache()
+		// Not valid and not even within grace period: query, cache and return.
+		// But make sure execOp is only called once, use a sync.Once for that:
+		oc.keyFirstExecOpOncesMu.Lock()
+		execOpOnce := oc.keyFirstExecOpOnces[key]
+		if execOpOnce == nil {
+			execOpOnce = &sync.Once{}
+			oc.keyFirstExecOpOnces[key] = execOpOnce
+		}
+		oc.keyFirstExecOpOncesMu.Unlock()
+
+		// If the same key is queried concurrently, regardless of who creates sync.Once for it (above),
+		// no guarantee who will end up calling execOp, so track if we're the lucky ones:
+		lucky := false
+		execOpOnce.Do(func() {
+			lucky = true
+			// If we were the "lucky" ones, remove the execOpOnce in the end.
+			// Call it deferred to make sure execOpOnce is removed even if execOpAndCache (execOp panics).
+			// (result is already cached by execOpAndCache() so from this point on the sync.Once associated with key is no longer needed).
+			defer func() {
+				oc.keyFirstExecOpOncesMu.Lock()
+				delete(oc.keyFirstExecOpOnces, key)
+				oc.keyFirstExecOpOncesMu.Unlock()
+			}()
+			result, resultErr = execOpAndCache()
+		})
+		if lucky {
+			return // We have the results stored in the return parameters
+		}
+		// "Not lucky", someone else called execOpAndCache(), access the result from cache:
+		cachedResult := oc.getCachedOpResult(key)
+		if cachedResult.valid() {
+			return cachedResult.result, cachedResult.resultErr
+		}
+		// If not valid, that means execOp returned a non-cachable error:
+		resultErr = ErrExecOpFailedAndErrDiscarded
+		return
 	}
 
 	// Cached result is within grace period, we can use it:
