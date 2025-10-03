@@ -114,6 +114,26 @@ func (oc *OpCache[K, T]) Evict() {
 	}
 }
 
+// Clear removes all cached entries.
+func (oc *OpCache[K, T]) Clear() {
+	oc.keyResultsMu.Lock()
+	defer oc.keyResultsMu.Unlock()
+
+	for key := range oc.keyResults {
+		delete(oc.keyResults, key)
+	}
+}
+
+// Remove removes all entries of the listed keys.
+func (oc *OpCache[K, T]) Remove(keys ...K) {
+	oc.keyResultsMu.Lock()
+	defer oc.keyResultsMu.Unlock()
+
+	for _, key := range keys {
+		delete(oc.keyResults, key)
+	}
+}
+
 var ErrExecOpFailedAndErrDiscarded = errors.New("exec op failed and error discarded")
 
 // Get gets the result of an operation.

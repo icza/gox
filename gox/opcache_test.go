@@ -2,6 +2,7 @@ package gox
 
 import (
 	"errors"
+	"strconv"
 	"sync"
 	"sync/atomic"
 	"testing"
@@ -195,4 +196,53 @@ func TestOpCacheExecOpOnce(t *testing.T) {
 		}()
 	}
 	wg.Wait()
+}
+
+func TestOpCacheClearRemove(t *testing.T) {
+	expiration := 20 * time.Millisecond
+
+	cfg := OpCacheConfig{
+		ResultExpiration:      expiration,
+		ResultGraceExpiration: expiration,
+	}
+
+	var counter int64
+	operation := func() (out int, err error) {
+		return int(atomic.AddInt64(&counter, 1)), nil
+	}
+
+	opc := NewOpCache[string, int](cfg)
+
+	// Put 2 entries into the cache:
+	for i := 1; i <= 5; i++ {
+		if got, _ := opc.Get(strconv.Itoa(i), operation); got != i {
+			t.Errorf("Expected %d, got: %d", i, got)
+		}
+	}
+
+	// In cache
+	for i := 1; i <= 5; i++ {
+		if got, _ := opc.Get(strconv.Itoa(i), operation); got != i {
+			t.Errorf("Expected %d, got: %d", i, got)
+		}
+	}
+
+	opc.Remove("1", "2")
+
+	exp := 6 // Removed, expect operation gets called
+	if got, _ := opc.Get("1", operation); got != exp {
+		t.Errorf("Expected %d, got: %d", exp, got)
+	}
+
+	// Now from cache
+	if got, _ := opc.Get("1", operation); got != exp {
+		t.Errorf("Expected %d, got: %d", exp, got)
+	}
+
+	opc.Clear()
+
+	exp = 7 // cache cleared, operation must get called again
+	if got, _ := opc.Get("5", operation); got != exp {
+		t.Errorf("Expected %d, got: %d", exp, got)
+	}
 }
