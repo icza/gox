@@ -134,6 +134,46 @@ func (oc *OpCache[K, T]) Remove(keys ...K) {
 	}
 }
 
+// execOpAndCacheResult executes execOp(), caches the result according to the configuration, and returns it
+func (oc *OpCache[K, T]) execOpAndCacheResult(
+	key K,
+	execOp func() (result T, err error),
+) (result T, resultErr error) {
+
+	result, resultErr = execOp()
+
+	oc.Set(key, result, resultErr)
+
+	return
+}
+
+// Set caches the given result with expiration defined by the configuration.
+//
+// Normally this doesn't need to be called, [Get] should be used which handles lookups, op execution and caching.
+// This is here to support caching results already constructed / available.
+//
+// Note that result may be discarded if resultErr is not nil and [OpCacheConfig.ErrorExpiration] was provided
+// which instructs to discard such result.
+func (oc *OpCache[K, T]) Set(key K, result T, resultErr error) {
+	expiration, graceExpiration := oc.cfg.ResultExpiration, oc.cfg.ResultGraceExpiration
+
+	if resultErr != nil && oc.cfg.ErrorExpiration != nil {
+		discard, exp, graceExp := oc.cfg.ErrorExpiration(resultErr)
+		if discard {
+			// This error result is not to be cached at all, just return:
+			return
+		}
+		if exp != nil {
+			expiration = *exp
+		}
+		if graceExp != nil {
+			graceExpiration = *graceExp
+		}
+	}
+
+	oc.setCachedOpResult(key, newOpResult(result, resultErr, expiration, graceExpiration))
+}
+
 var ErrExecOpFailedAndErrDiscarded = errors.New("exec op failed and error discarded")
 
 // Get gets the result of an operation.
@@ -166,27 +206,6 @@ func (oc *OpCache[K, T]) Get(
 		return cachedResult.result, cachedResult.resultErr
 	}
 
-	// execOpAndCache executes execOp(), caches the result according to the configuration, and returns it
-	execOpAndCache := func() (result T, resultErr error) {
-		result, resultErr = execOp()
-		expiration, graceExpiration := oc.cfg.ResultExpiration, oc.cfg.ResultGraceExpiration
-		if resultErr != nil && oc.cfg.ErrorExpiration != nil {
-			discard, exp, graceExp := oc.cfg.ErrorExpiration(resultErr)
-			if discard {
-				// This error result is not to be cached at all, just return:
-				return
-			}
-			if exp != nil {
-				expiration = *exp
-			}
-			if graceExp != nil {
-				graceExpiration = *graceExp
-			}
-		}
-		oc.setCachedOpResult(key, newOpResult(result, resultErr, expiration, graceExpiration))
-		return
-	}
-
 	if !cachedResult.graceValid() {
 		// Not valid and not even within grace period: query, cache and return.
 		// But make sure execOp is only called once, use a sync.Once for that:
@@ -211,7 +230,7 @@ func (oc *OpCache[K, T]) Get(
 				delete(oc.keyFirstExecOpOnces, key)
 				oc.keyFirstExecOpOncesMu.Unlock()
 			}()
-			result, resultErr = execOpAndCache()
+			result, resultErr = oc.execOpAndCacheResult(key, execOp)
 		})
 		if lucky {
 			return // We have the results stored in the return parameters
@@ -252,7 +271,7 @@ func (oc *OpCache[K, T]) Get(
 
 	// reload in new goroutine.
 	// Note: we're not using the return values, we're returning the cached (grace-valid) values.
-	go execOpAndCache()
+	go oc.execOpAndCacheResult(key, execOp)
 
 	return
 }
@@ -313,21 +332,7 @@ func (oc *OpCache[K, T]) MultiGet(
 	execMultiOpAndCache := func(keyIndices []int) (results []T, resultErrs []error) {
 		results, resultErrs = execMultiOp(keyIndices)
 		for i, resultErr := range resultErrs {
-			expiration, graceExpiration := oc.cfg.ResultExpiration, oc.cfg.ResultGraceExpiration
-			if resultErr != nil && oc.cfg.ErrorExpiration != nil {
-				discard, exp, graceExp := oc.cfg.ErrorExpiration(resultErr)
-				if discard {
-					// This error result is not to be cached at all, just skip:
-					continue
-				}
-				if exp != nil {
-					expiration = *exp
-				}
-				if graceExp != nil {
-					graceExpiration = *graceExp
-				}
-			}
-			oc.setCachedOpResult(keys[keyIndices[i]], newOpResult(results[i], resultErr, expiration, graceExpiration))
+			oc.Set(keys[keyIndices[i]], results[i], resultErr)
 		}
 		return
 	}

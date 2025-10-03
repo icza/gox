@@ -198,7 +198,7 @@ func TestOpCacheExecOpOnce(t *testing.T) {
 	wg.Wait()
 }
 
-func TestOpCacheClearRemove(t *testing.T) {
+func TestOpCacheSetClearRemove(t *testing.T) {
 	expiration := 20 * time.Millisecond
 
 	cfg := OpCacheConfig{
@@ -243,6 +243,13 @@ func TestOpCacheClearRemove(t *testing.T) {
 
 	exp = 7 // cache cleared, operation must get called again
 	if got, _ := opc.Get("5", operation); got != exp {
+		t.Errorf("Expected %d, got: %d", exp, got)
+	}
+
+	exp = 9
+
+	opc.Set("9", exp, nil)
+	if got, _ := opc.Get("9", operation); got != exp {
 		t.Errorf("Expected %d, got: %d", exp, got)
 	}
 }
