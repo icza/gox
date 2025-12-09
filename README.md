@@ -15,6 +15,8 @@ complement to the standard `fmt` package.
 - [`i18n`](https://github.com/icza/gox/tree/main/i18n): internationalization utilities.
 - [`imagex/colorx`](https://github.com/icza/gox/tree/main/imagex/colorx): color utilities,
 complement to the standard `image/color` package.
+- [`logx/slogx`](https://github.com/icza/gox/tree/main/logx/slogx): structured logging utilities,
+complement to the standard `log/slog` package.
 - [`mathx`](https://github.com/icza/gox/tree/main/mathx): math utilities,
 complement to the standard `math` package.
 - [`mathx/randx`](https://github.com/icza/gox/tree/main/mathx/randx): random-related utilities,
