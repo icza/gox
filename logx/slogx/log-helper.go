@@ -40,7 +40,7 @@ func (lh LogHelper) Errorf(format string, a ...any) {
 	}
 }
 
-// Fatalf logs a formatted error message and exits the application.
+// Fatalf logs a formatted error message and calls [os.Exit](1).
 func (lh LogHelper) Fatalf(format string, a ...any) {
 	if lh.Enabled(context.Background(), slog.LevelError) {
 		lh.Error(fmt.Sprintf(format, a...))
