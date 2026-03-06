@@ -3,6 +3,7 @@
 package gox
 
 import (
+	"cmp"
 	"fmt"
 )
 
@@ -133,6 +134,17 @@ func Deref[T any](p *T, def ...T) (result T) {
 		return def[0]
 	}
 	return
+}
+
+// Clamp returns v if it is between min and max, min if v is less than min, and max if v is greater than max.
+func Clamp[T cmp.Ordered](v, min, max T) T {
+	if v < min {
+		return min
+	}
+	if v > max {
+		return max
+	}
+	return v
 }
 
 // Protect executes f but protects against panics.

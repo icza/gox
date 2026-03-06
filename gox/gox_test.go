@@ -240,6 +240,48 @@ func TestDeref(t *testing.T) {
 	}
 }
 
+func TestClamp(t *testing.T) {
+	cases := []struct {
+		name     string
+		exp, got any
+	}{
+		{
+			"between",
+			15, Clamp(15, 10, 20),
+		},
+		{
+			"below",
+			15, Clamp(15, 10, 20),
+		},
+		{
+			"above",
+			15, Clamp(15, 10, 20),
+		},
+		{
+			"boundary-low",
+			10, Clamp(10, 10, 20),
+		},
+		{
+			"boundary-up",
+			20, Clamp(20, 10, 20),
+		},
+		{
+			"strings",
+			"m", Clamp("m", "a", "z"),
+		},
+		{
+			"strings-2",
+			"banana", Clamp("apple", "banana", "orange"),
+		},
+	}
+
+	for _, c := range cases {
+		if c.exp != c.got {
+			t.Errorf("[%s] Expected: %v, got: %v", c.name, c.exp, c.got)
+		}
+	}
+}
+
 func TestPie(t *testing.T) {
 	Pie(nil)
 
