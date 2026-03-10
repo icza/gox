@@ -40,6 +40,9 @@ func IfFunc[T any](cond bool, ftrue func() T, ffalse func() T) T {
 //	}{
 //	    Bar: Ptr(f()),
 //	}
+//
+// Note: the same functionality has been added in Go 1.26 as the builtin new() function,
+// which now allows its operand to be an expression.
 func Ptr[T any](v T) *T {
 	return &v
 }
@@ -136,7 +139,8 @@ func Deref[T any](p *T, def ...T) (result T) {
 	return
 }
 
-// Clamp returns v if it is between min and max, min if v is less than min, and max if v is greater than max.
+// Clamp returns v if it is between min and max (both inclusive),
+// min if v is less than min, and max if v is greater than max.
 func Clamp[T cmp.Ordered](v, min, max T) T {
 	if v < min {
 		return min
