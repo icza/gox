@@ -151,6 +151,22 @@ func Clamp[T cmp.Ordered](v, min, max T) T {
 	return v
 }
 
+// ForceMin returns v if it not less than min, else min (forces the returned value to be not less than min).
+func ForceMin[T cmp.Ordered](v, min T) T {
+	if v < min {
+		return min
+	}
+	return v
+}
+
+// ForceMax returns v if it not greater than max, else max (forces the returned value to be not greater than max).
+func ForceMax[T cmp.Ordered](v, max T) T {
+	if v > max {
+		return max
+	}
+	return v
+}
+
 // Protect executes f but protects against panics.
 // If a panic occurs during the execution of f, an error will be returned.
 // If an error was passed to panic, that error will be wrapped in the returned error.

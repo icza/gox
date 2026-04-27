@@ -282,6 +282,82 @@ func TestClamp(t *testing.T) {
 	}
 }
 
+func TestForceMin(t *testing.T) {
+	cases := []struct {
+		name     string
+		exp, got any
+	}{
+		{
+			"above-int",
+			18, ForceMin(18, 15),
+		},
+		{
+			"exact-int",
+			15, ForceMin(15, 15),
+		},
+		{
+			"below-int",
+			15, ForceMin(12, 15),
+		},
+		{
+			"above-string",
+			"p", ForceMin("p", "m"),
+		},
+		{
+			"exact-string",
+			"m", ForceMin("m", "m"),
+		},
+		{
+			"below-string",
+			"m", ForceMin("c", "m"),
+		},
+	}
+
+	for _, c := range cases {
+		if c.exp != c.got {
+			t.Errorf("[%s] Expected: %v, got: %v", c.name, c.exp, c.got)
+		}
+	}
+}
+
+func TestForceMax(t *testing.T) {
+	cases := []struct {
+		name     string
+		exp, got any
+	}{
+		{
+			"below-int",
+			12, ForceMax(12, 15),
+		},
+		{
+			"exact-int",
+			15, ForceMax(15, 15),
+		},
+		{
+			"above-int",
+			15, ForceMax(18, 15),
+		},
+		{
+			"below-string",
+			"c", ForceMax("c", "m"),
+		},
+		{
+			"exact-string",
+			"m", ForceMax("m", "m"),
+		},
+		{
+			"above-string",
+			"m", ForceMax("p", "m"),
+		},
+	}
+
+	for _, c := range cases {
+		if c.exp != c.got {
+			t.Errorf("[%s] Expected: %v, got: %v", c.name, c.exp, c.got)
+		}
+	}
+}
+
 func TestPie(t *testing.T) {
 	Pie(nil)
 
