@@ -141,6 +141,8 @@ func Deref[T any](p *T, def ...T) (result T) {
 
 // Clamp returns v if it is between min and max (both inclusive),
 // min if v is less than min, and max if v is greater than max.
+//
+// Behaviour is undefined if min > max.
 func Clamp[T cmp.Ordered](v, min, max T) T {
 	if v < min {
 		return min
@@ -152,6 +154,8 @@ func Clamp[T cmp.Ordered](v, min, max T) T {
 }
 
 // ForceMin returns v if it not less than min, else min (forces the returned value to be not less than min).
+//
+// Note: it's essentially the same operation as max(v, min) but the naming is more intuitive.
 func ForceMin[T cmp.Ordered](v, min T) T {
 	if v < min {
 		return min
@@ -160,6 +164,8 @@ func ForceMin[T cmp.Ordered](v, min T) T {
 }
 
 // ForceMax returns v if it not greater than max, else max (forces the returned value to be not greater than max).
+//
+// Note: it's essentially the same operation as min(v, max) but the naming is more intuitive.
 func ForceMax[T cmp.Ordered](v, max T) T {
 	if v > max {
 		return max
