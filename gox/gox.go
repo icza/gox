@@ -153,7 +153,7 @@ func Clamp[T cmp.Ordered](v, min, max T) T {
 	return v
 }
 
-// ForceMin returns v if it not less than min, else min (forces the returned value to be not less than min).
+// ForceMin returns v if it not less than min, else min (forces the returned value to be minimum min).
 //
 // Note: it's essentially the same operation as max(v, min) but the naming is more intuitive.
 func ForceMin[T cmp.Ordered](v, min T) T {
@@ -163,7 +163,7 @@ func ForceMin[T cmp.Ordered](v, min T) T {
 	return v
 }
 
-// ForceMax returns v if it not greater than max, else max (forces the returned value to be not greater than max).
+// ForceMax returns v if it not greater than max, else max (forces the returned value to be maximum max).
 //
 // Note: it's essentially the same operation as min(v, max) but the naming is more intuitive.
 func ForceMax[T cmp.Ordered](v, max T) T {
