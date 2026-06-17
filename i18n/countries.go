@@ -58,6 +58,7 @@ func (c *Country) GetFlagName() string {
 	return c.FlagName
 }
 
+// Countries is a list of all countries, sorted by their English name.
 var Countries = []*Country{
 	{Code: "AF", Code3: "AFG", FlagName: "🇦🇫Afghanistan"},
 	{Code: "AX", Code3: "ALA", FlagName: "🇦🇽Åland Islands"},
