@@ -22,6 +22,42 @@ type Country struct {
 	FlagName string
 }
 
+// GetCode returns the 2-letter ISO 3166-1 alpha-2 country code.
+// Empty string is returned if Country is nil.
+func (c *Country) GetCode() string {
+	if c == nil {
+		return ""
+	}
+	return c.Code
+}
+
+// GetName returns the name of the country.
+// Empty string is returned if Country is nil.
+func (c *Country) GetName() string {
+	if c == nil {
+		return ""
+	}
+	return c.Name
+}
+
+// GetFlag returns the flag of the country.
+// Empty string is returned if Country is nil.
+func (c *Country) GetFlag() string {
+	if c == nil {
+		return ""
+	}
+	return c.Flag
+}
+
+// GetFlagName returns the flag+name of the country.
+// Empty string is returned if Country is nil.
+func (c *Country) GetFlagName() string {
+	if c == nil {
+		return ""
+	}
+	return c.FlagName
+}
+
 var Countries = []*Country{
 	{Code: "AF", Code3: "AFG", FlagName: "🇦🇫Afghanistan"},
 	{Code: "AX", Code3: "ALA", FlagName: "🇦🇽Åland Islands"},
@@ -284,6 +320,7 @@ func init() {
 	// Slice FlagName and store the Flag and Name for each country.
 	// Slicing reuses the memory of the FlagName string.
 	for _, country := range Countries {
+		// Flag emojies are 2 runes, so slice the first 2 runes from FlagName to get the Flag.
 		_, size1 := utf8.DecodeRuneInString(country.FlagName)
 		_, size2 := utf8.DecodeRuneInString(country.FlagName[size1:])
 		flagLen := size1 + size2
