@@ -31,6 +31,15 @@ func (c *Country) GetCode() string {
 	return c.Code
 }
 
+// GetCode3 returns the 3-letter ISO 3166-1 alpha-3 country code.
+// Empty string is returned if Country is nil.
+func (c *Country) GetCode3() string {
+	if c == nil {
+		return ""
+	}
+	return c.Code3
+}
+
 // GetName returns the name of the country.
 // Empty string is returned if Country is nil.
 func (c *Country) GetName() string {
