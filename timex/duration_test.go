@@ -160,3 +160,25 @@ func TestShortDuration(t *testing.T) {
 		}
 	}
 }
+
+func TestRoundNegativeDuration(t *testing.T) {
+	cases := []struct {
+		d      time.Duration
+		digits int
+		want   string
+	}{
+		{-1500 * time.Millisecond, 0, "-2s"},
+		{-123456789 * time.Nanosecond, 2, "-123.46ms"},
+		{-123456 * time.Nanosecond, 1, "-123.5µs"},
+		{-123 * time.Nanosecond, 0, "-123ns"},
+		{-time.Second, 0, "-1s"},
+		{-123456789 * time.Nanosecond, -1, "-123ms"},
+		{-123456789 * time.Nanosecond, 99, "-123.456789ms"},
+		{time.Duration(-1 << 63), 0, "-2562047h47m16.854775808s"},
+	}
+	for _, tc := range cases {
+		if got := Round(tc.d, tc.digits).String(); got != tc.want {
+			t.Errorf("Round(%v, %d) = %s, want %s", tc.d, tc.digits, got, tc.want)
+		}
+	}
+}

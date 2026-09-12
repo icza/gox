@@ -25,11 +25,11 @@ func Round(d time.Duration, digits int) time.Duration {
 	}
 
 	switch {
-	case d > time.Second:
+	case d > time.Second || d < -time.Second:
 		d = d.Round(time.Second / roundDivs[digits])
-	case d > time.Millisecond:
+	case d > time.Millisecond || d < -time.Millisecond:
 		d = d.Round(time.Millisecond / roundDivs[digits])
-	case d > time.Microsecond:
+	case d > time.Microsecond || d < -time.Microsecond:
 		d = d.Round(time.Microsecond / roundDivs[digits])
 	}
 	return d
